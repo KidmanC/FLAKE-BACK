@@ -17,7 +17,7 @@ def get_users():
     return JSONResponse(content=jsonable_encoder(users), status_code=200)
 
 @user_router.get('/users/{user_id}', tags=["Users"])
-def get_user_by_id(user_id: int = Depends(get_db)):
+def get_user_by_id(user_id: int):
     db = Session()
     user = UserService(db).get_user_by_id(user_id)
     if user is None:

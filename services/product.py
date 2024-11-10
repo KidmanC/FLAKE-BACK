@@ -21,7 +21,7 @@ class ProductService:
         query = self.db.query(ProductModel).filter(ProductModel.id == product_id).first()
         if not query:
             return None
-        query.name = product.title
+        query.name = product.name
         query.brand = product.brand
         query.created_by = product.created_by
         self.db.commit()

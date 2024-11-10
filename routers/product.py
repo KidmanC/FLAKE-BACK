@@ -18,7 +18,7 @@ def get_products():
     return JSONResponse(content=jsonable_encoder(products), status_code=200)
 
 @product_router.get('/products/{product_id}', tags=["Products"])
-def get_product_by_id(product_id: int = Depends(get_db)):
+def get_product_by_id(product_id: int):
     db = Session()
     product = ProductService(db).get_product_by_id(product_id)
     if product is None:
