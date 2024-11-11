@@ -4,7 +4,7 @@ from schemas.presente import Presente
 
 
 class Asistencia(BaseModel):
-    asistencia_id: int | None = None
+    #asistencia_id: int | None = None
     clase_id: int | None = None
     estudiante_id: int | None = None
     fecha: date | None = None  

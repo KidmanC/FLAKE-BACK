@@ -5,7 +5,7 @@ from schemas.genero import Genero
 from datetime import date
 
 class Estudiante(BaseModel):
-    estudiante_id: int | None = None
+    #estudiante_id: int | None = None
     aula_id: int | None = None
     periodo_id: int | None = None
     grado_texto: Grado | None = None

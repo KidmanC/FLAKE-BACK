@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from schemas.tipo_identificacion import Tipo_identificacion
 
 class Tutor(BaseModel):
-    tutor_id: int | None = None
+    #tutor_id: int | None = None
     identificacion: str | None = None
     tipo_identificacion: Tipo_identificacion | None = None
     primer_nombre: str | None = None
