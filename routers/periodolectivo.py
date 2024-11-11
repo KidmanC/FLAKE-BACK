@@ -3,7 +3,6 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from schemas.periodolectivo import PeriodoLectivo
 from config.database import Session
-from config.database import get_db, Session
 from services.periodolectivo import PeriodolectivoService
 
 

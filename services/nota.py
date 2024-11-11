@@ -26,6 +26,7 @@ class NotaService:
         query.clase_id = nota.clase_id
         query.bloque = nota.bloque
         query.calificacion = nota.calificacion
+        self.db.commit()
         return query
 
     def delete_nota(self, nota_id):

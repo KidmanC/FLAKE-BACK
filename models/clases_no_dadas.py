@@ -9,4 +9,4 @@ class Clases_no_dadas(Base):
     clase_no_dada_id = Column(Integer, primary_key=True)
     clase_id = Column(Integer, ForeignKey('CLASE.clase_id'))
     fecha_clase_no_dada = Column(Date)
-    motivo = Column(Enum(Motivo))
+    motivo = Column(Enum(Motivo, values_callable=lambda enum: [e.value for e in enum]))

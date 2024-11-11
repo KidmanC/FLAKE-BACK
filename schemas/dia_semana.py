@@ -3,6 +3,6 @@ import enum
 class Dia_semana(enum.Enum):
     LUNES = 'LUNES'
     MARTES = 'MARTES'
-    MIERCOLES = 'MIERCOLES'
+    MIÉRCOLES = 'MIÉRCOLES'
     JUEVES = 'JUEVES'
     VIERNES = 'VIERNES'

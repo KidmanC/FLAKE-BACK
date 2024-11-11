@@ -9,8 +9,8 @@ class Aula(Base):
 
     aula_id = Column(Integer, primary_key=True)
     institucion_id = Column(Integer, ForeignKey('INSTITUCION.institucion_id'))
-    periodo_id = Column(Integer, ForeignKey('PERIODO.periodo_id'))
-    grado_texto = Column(Enum(Grado))
+    periodo_id = Column(Integer, ForeignKey('PERIODOLECTIVO.periodo_id'))
+    grado_texto = Column(Enum(Grado, values_callable=lambda enum: [e.value for e in enum]))
     grado_num = Column(Integer)
     grupo = Column(String(10))
-    Jornada = Column(Enum(Jornada))
+    jornada = Column(Enum(Jornada, values_callable=lambda enum: [e.value for e in enum]))

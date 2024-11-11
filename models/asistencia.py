@@ -10,4 +10,4 @@ class Asistencia(Base):
     clase_id = Column(Integer, ForeignKey('CLASE.clase_id'))
     estudiante_id = Column(Integer, ForeignKey('ESTUDIANTE.estudiante_id'))
     fecha = Column(Date)
-    presente = Column(Enum(Presente))
+    presente = Column(Enum(Presente, values_callable=lambda enum: [e.value for e in enum]))

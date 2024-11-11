@@ -9,5 +9,5 @@ class Clase(Base):
     clase_id = Column(Integer, primary_key=True)
     aula_id = Column(Integer, ForeignKey('AULA.aula_id'))
     tutor_id = Column(Integer, ForeignKey('TUTOR.tutor_id'))
-    periodo_id = Column(Integer, ForeignKey('PERIODO.periodo_id'))
-    grado = Column(Enum(Grado))
+    periodo_id = Column(Integer, ForeignKey('PERIODOLECTIVO.periodo_id'))
+    grado = Column(Enum(Grado, values_callable=lambda enum: [e.value for e in enum]))

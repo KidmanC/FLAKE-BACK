@@ -5,32 +5,32 @@ class Clases_no_dadas_Service:
     def __init__(self, db):
         self.db = db
 
-    def get_clases_no_dadas_by_id(self, clase_no_dada_id):
+    def get_clase_no_dada_by_id(self, clase_no_dada_id):
         return self.db.query(Clases_no_dadas_Model).filter(Clases_no_dadas_Model.clase_no_dada_id == clase_no_dada_id).first()
 
-    def get_clases_no_dadass(self):
+    def get_clases_no_dadas(self):
         return self.db.query(Clases_no_dadas_Model).all()
     
-    def add_clases_no_dadas(self, clases_no_dadas: Clases_no_dadas):
-        new_clases_no_dadas = Clases_no_dadas_Model(**clases_no_dadas.dict())
-        self.db.add(new_clases_no_dadas)
+    def add_clase_no_dada(self, clase_no_dada: Clases_no_dadas):
+        new_clase_no_dada = Clases_no_dadas_Model(**clase_no_dada.dict())
+        self.db.add(new_clase_no_dada)
         self.db.commit()
-        return new_clases_no_dadas
+        return new_clase_no_dada
 
-    def update_clases_no_dadas(self, clase_no_dada_id, clases_no_dadas: Clases_no_dadas):
+    def update_clases_no_dadas(self, clase_no_dada_id, clase_no_dada: Clases_no_dadas):
         query = self.db.query(Clases_no_dadas_Model).filter(Clases_no_dadas_Model.clase_no_dada_id == clase_no_dada_id).first()
         if not query:
             return None
-        query.clase_id = clases_no_dadas.clase_id
-        query.fecha_clase_no_dada = clases_no_dadas.fecha_clase_no_dada
-        query.motivo = clases_no_dadas.motivo
+        query.clase_id = clase_no_dada.clase_id
+        query.fecha_clase_no_dada = clase_no_dada.fecha_clase_no_dada
+        query.motivo = clase_no_dada.motivo
         self.db.commit()
         return query
 
-    def delete_clases_no_dadas(self, clase_no_dada_id):
-        clases_no_dadas = self.db.query(Clases_no_dadas_Model).filter(Clases_no_dadas_Model.clase_no_dada_id == clase_no_dada_id).first()
-        if not clases_no_dadas:
+    def delete_clase_no_dada(self, clase_no_dada_id):
+        clase_no_dada = self.db.query(Clases_no_dadas_Model).filter(Clases_no_dadas_Model.clase_no_dada_id == clase_no_dada_id).first()
+        if not clase_no_dada:
             return None
-        self.db.delete(clases_no_dadas)
+        self.db.delete(clase_no_dada)
         self.db.commit()
-        return clases_no_dadas
+        return clase_no_dada

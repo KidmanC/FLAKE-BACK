@@ -2,6 +2,6 @@ import enum
 
 
 class Jornada(enum.Enum):
-    MANANA = 'MANANA'
+    MAÑANA = 'MAÑANA'
     TARDE = 'TARDE'
-    UNICA = 'UNICA'
+    ÚNICA = 'ÚNICA'

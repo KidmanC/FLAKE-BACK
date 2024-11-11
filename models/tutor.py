@@ -8,7 +8,7 @@ class Tutor(Base):
 
     tutor_id = Column(Integer, primary_key=True)
     identificacion = Column(String(20))
-    tipo_identificacion = Column(Enum(Tipo_identificacion))
+    tipo_identificacion = Column(Enum(Tipo_identificacion, values_callable=lambda enum: [e.value for e in enum]))
     primer_nombre = Column(String(50))
     segundo_nombre = Column(String(50))
     primer_apellido = Column(String(50))
@@ -16,6 +16,6 @@ class Tutor(Base):
     correo = Column(String(100))
     celular = Column(String(15))
     direccion = Column(String(150))
-    periodo_id = Column(Integer, ForeignKey('PERIODO_LECTIVO.periodo_id'))
+    periodo_id = Column(Integer, ForeignKey('PERIODOLECTIVO.periodo_id'))
     user = Column(String)
     password = Column(String)

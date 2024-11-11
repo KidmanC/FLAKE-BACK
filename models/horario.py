@@ -8,6 +8,6 @@ class Horario(Base):
 
     horario_id = Column(Integer, primary_key=True)
     clase_id = Column(Integer, ForeignKey('CLASE.clase_id'))
-    dia_semana = Column(Enum(Dia_semana))
+    dia_semana = Column(Enum(Dia_semana, values_callable=lambda enum: [e.value for e in enum]))
     hora_inicio = Column(Time)
     hora_fin = Column(Time)
