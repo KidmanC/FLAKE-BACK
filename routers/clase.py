@@ -6,7 +6,7 @@ from config.database import Session
 from config.database import get_db, Session
 from services.clase import ClaseService
 
-
+## diego se besó a mi abuelo
 clase_router = APIRouter()
 
 @clase_router.get('/clases', tags=["Clases"])
