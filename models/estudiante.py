@@ -1,5 +1,6 @@
 from config.database import Base
 from sqlalchemy import Column, Date, Enum, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from schemas.grado import Grado
 from schemas.tipo_identificacion import Tipo_identificacion
 from schemas.genero import Genero
@@ -22,3 +23,6 @@ class Estudiante(Base):
     genero = Column(Enum(Genero, values_callable=lambda enum: [e.value for e in enum]))
     fecha_nacimiento = Column(Date)
     estrato = Column(Integer)
+
+    aula = relationship('Aula', backref='estudiantes', lazy="joined")
+    periodo = relationship('Periodo_lectivo', backref='estudiantes', lazy="joined")

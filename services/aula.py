@@ -5,11 +5,13 @@ class AulaService:
     def __init__(self, db):
         self.db = db
 
-    def get_aula_by_id(self, aula_id):
-        return self.db.query(AulaModel).filter(AulaModel.aula_id == aula_id).first()
-
-    def get_aulas(self):
-        return self.db.query(AulaModel).all()
+    def get_aula(self, filters: dict):
+        query = self.db.query(AulaModel) 
+        # Aplica los filtros dinámicamente si existen
+        for field, value in filters.items():
+            if value is not None:  
+                query = query.filter(getattr(AulaModel, field) == value)
+        return query.all()  
     
     def add_aula(self, aula: Aula):
         new_aula = AulaModel(**aula.dict())

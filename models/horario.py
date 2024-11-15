@@ -1,5 +1,6 @@
 from config.database import Base
 from sqlalchemy import Column, Enum, Integer, ForeignKey, Time
+from sqlalchemy.orm import relationship
 from schemas.dia_semana import Dia_semana
 
 
@@ -11,3 +12,5 @@ class Horario(Base):
     dia_semana = Column(Enum(Dia_semana, values_callable=lambda enum: [e.value for e in enum]))
     hora_inicio = Column(Time)
     hora_fin = Column(Time)
+
+    clase = relationship('Clase', backref='horarios', lazy="joined")

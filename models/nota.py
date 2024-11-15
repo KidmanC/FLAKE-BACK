@@ -1,5 +1,6 @@
 from config.database import Base
 from sqlalchemy import Column, ForeignKey, Integer, Numeric
+from sqlalchemy.orm import relationship
 
 
 class Nota(Base):
@@ -11,3 +12,7 @@ class Nota(Base):
     clase_id = Column(Integer, ForeignKey('CLASE.clase_id'))
     bloque = Column(Integer) 
     calificacion = Column(Numeric)
+
+    periodo = relationship('Periodo_lectivo', backref='notas', lazy="joined")
+    estudiante = relationship('Estudiante', backref='notas', lazy="joined")
+    clase = relationship('Clase', backref='notas', lazy="joined")

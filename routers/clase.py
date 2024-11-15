@@ -1,27 +1,32 @@
+from typing import Optional
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from schemas.clase import Clase
 from config.database import Session
 from config.database import get_db, Session
+from schemas.grado import Grado
 from services.clase import ClaseService
 
 
 clase_router = APIRouter()
 
-@clase_router.get('/clases', tags=["Clases"])
-def get_clases():
+@clase_router.get('/clases/filter', tags=["Clases"])
+def clase_filter(
+    clase_id: Optional[int] = None,
+    aula_id: Optional[int] = None,
+    tutor_id: Optional[int] = None,
+    periodo_id: Optional[int] = None, 
+    grado: Optional[Grado] = None,
+):
     db = Session()
-    clases = ClaseService(db).get_clases()
-    if not clases:
-        return JSONResponse(content={"message": "Clases not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(clases), status_code=200)
-
-@clase_router.get('/clases/{clase_id}', tags=["Clases"])
-def get_clase_by_id(clase_id: int):
-    db = Session()
-    clase = ClaseService(db).get_clase_by_id(clase_id)
-    if clase is None:
+    filter = {"clase_id": clase_id,
+    "aula_id": aula_id,
+    "tutor_id": tutor_id,
+    "periodo_id": periodo_id,
+    "grado": grado}
+    clase = ClaseService(db).get_clase(filter)
+    if not clase:
         return JSONResponse(content={"message": "Clase not found"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(clase), status_code=200)
 

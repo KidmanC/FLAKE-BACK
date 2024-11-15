@@ -1,3 +1,4 @@
+from sqlalchemy.orm import relationship
 from config.database import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, Enum
 from schemas.tipo_identificacion import Tipo_identificacion
@@ -19,3 +20,5 @@ class Tutor(Base):
     periodo_id = Column(Integer, ForeignKey('PERIODOLECTIVO.periodo_id'))
     user = Column(String)
     password = Column(String)
+
+    periodo = relationship('Periodo_lectivo', backref='tutores', lazy="joined")

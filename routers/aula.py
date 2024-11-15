@@ -1,27 +1,38 @@
+from typing import Optional
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from schemas.aula import Aula
 from config.database import Session
 from config.database import get_db, Session
+from schemas.grado import Grado
+from schemas.jornada import Jornada
 from services.aula import AulaService
 
 
 aula_router = APIRouter()
 
-@aula_router.get('/aulas', tags=["Aulas"])
-def get_aulas():
-    db = Session()
-    aulas = AulaService(db).get_aulas()
-    if not aulas:
-        return JSONResponse(content={"message": "Aulas not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(aulas), status_code=200)
 
-@aula_router.get('/aulas/{aula_id}', tags=["Aulas"])
-def get_aula_by_id(aula_id: int):
+@aula_router.get('/aulas/filter', tags=["Aulas"])
+def aula_filter(
+    aula_id: Optional[int] = None,
+    institucion_id: Optional[int] = None,
+    periodo_id: Optional[int] = None,
+    grado_texto: Optional[Grado] = None, 
+    grado_num: Optional[int] = None,
+    grupo: Optional[str] = None,
+    jornada: Optional[Jornada] = None
+):
     db = Session()
-    aula = AulaService(db).get_aula_by_id(aula_id)
-    if aula is None:
+    filter = {"aula_id": aula_id,
+    "institucion_id": institucion_id,
+    "periodo_id": periodo_id,
+    "grado_texto": grado_texto,
+    "grado_num": grado_num,
+    "grupo": grupo,
+    "jornada": jornada}
+    aula = AulaService(db).get_aula(filter)
+    if not aula:
         return JSONResponse(content={"message": "Aula not found"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(aula), status_code=200)
 

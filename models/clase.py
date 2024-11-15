@@ -1,3 +1,4 @@
+from sqlalchemy.orm import relationship
 from config.database import Base
 from sqlalchemy import Column, Enum, Integer, ForeignKey
 from schemas.grado import Grado
@@ -11,3 +12,7 @@ class Clase(Base):
     tutor_id = Column(Integer, ForeignKey('TUTOR.tutor_id'))
     periodo_id = Column(Integer, ForeignKey('PERIODOLECTIVO.periodo_id'))
     grado = Column(Enum(Grado, values_callable=lambda enum: [e.value for e in enum]))
+
+    aula = relationship('Aula', backref='clases', lazy="joined")
+    tutor = relationship('Tutor', backref='clases', lazy="joined")
+    periodo = relationship('Periodo_lectivo', backref='clases', lazy="joined")

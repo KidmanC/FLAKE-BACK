@@ -5,11 +5,13 @@ class TutorService:
     def __init__(self, db):
         self.db = db
 
-    def get_tutor_by_id(self, tutor_id):
-        return self.db.query(TutorModel).filter(TutorModel.tutor_id == tutor_id).first()
-
-    def get_tutors(self):
-        return self.db.query(TutorModel).all()
+    def get_tutor(self, filters: dict):
+        query = self.db.query(TutorModel) 
+        # Aplica los filtros dinámicamente si existen
+        for field, value in filters.items():
+            if value is not None:  
+                query = query.filter(getattr(TutorModel, field) == value)
+        return query.all() 
     
     def add_tutor(self, tutor: Tutor):
         new_tutor = TutorModel(**tutor.dict())

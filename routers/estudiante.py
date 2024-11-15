@@ -46,3 +46,11 @@ def delete_estudiante(estudiante_id: int):
     if query is None:
         return JSONResponse(content={"message": "Estudiante not found"}, status_code=404)
     return JSONResponse(content={"message": "Estudiante deleted", "estudiante": jsonable_encoder(query)}, status_code=200)
+
+@estudiante_router.get('/estudiantes/{estudiante_id}/notas', tags=["Estudiantes"])
+def get_notas(estudiante_id: int):
+    db = Session()
+    notas = EstudianteService(db).get_notas(estudiante_id)
+    if not notas:
+        return JSONResponse(content={"message": "Notas not found"}, status_code=404)
+    return JSONResponse(content=jsonable_encoder(notas), status_code=200)
