@@ -8,7 +8,7 @@ from config.database import get_db, Session
 from schemas.grado import Grado
 from services.clase import ClaseService
 
-
+## diego se besó a mi abuelo
 clase_router = APIRouter()
 
 @clase_router.get('/clases/filter', tags=["Clases"])
