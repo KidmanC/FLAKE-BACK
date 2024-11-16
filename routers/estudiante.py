@@ -1,29 +1,59 @@
+from typing import Optional
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from schemas.estudiante import Estudiante
+from schemas.grado import Grado
+from schemas.tipo_identificacion import Tipo_identificacion
+from schemas.genero import Genero
 from config.database import Session
 from config.database import get_db, Session
 from services.estudiante import EstudianteService
+from datetime import date
 
 
 estudiante_router = APIRouter()
 
-@estudiante_router.get('/estudiantes', tags=["Estudiantes"])
-def get_estudiantes():
+@estudiante_router.get('/estudiantes/filter', tags=["Estudiantes"])
+def Estudiantes_filter(
+    estudiante_id: Optional[int] = None,
+    aula_id: Optional[int] = None,
+    periodo_id: Optional[int] = None,
+    grado_texto: Optional[Grado] = None,
+    grado_num: Optional[int] = None,
+    identificacion: Optional[str] = None,
+    tipo_identificacion: Optional[Tipo_identificacion] = None,
+    primer_nombre: Optional[str] = None,
+    segundo_nombre: Optional[str] = None,
+    primer_apellido: Optional[str] = None,
+    segundo_apellido: Optional[str] = None,
+    genero: Optional[Genero] = None,
+    fecha_nacimiento: Optional[date] = None,
+    estrato: Optional[int] = None, 
+    
+):
     db = Session()
-    estudiantes = EstudianteService(db).get_estudiantes()
-    if not estudiantes:
-        return JSONResponse(content={"message": "Estudiantes not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(estudiantes), status_code=200)
+    filter = {
+        "estudiante_id": estudiante_id,
+        "aula_id": aula_id,
+        "periodo_id": periodo_id,
+        "grado_texto": grado_texto,
+        "grado_num": grado_num,
+        "identificacion": identificacion,
+        "tipo_identificacion": tipo_identificacion,
+        "primer_nombre": primer_nombre,
+        "segundo_nombre": segundo_nombre,
+        "primer_apellido": primer_apellido,
+        "segundo_apellido": segundo_apellido,
+        "genero": genero,
+        "fecha_nacimiento": fecha_nacimiento,
+        "estrato": estrato,
+    }
 
-@estudiante_router.get('/estudiantes/{estudiante_id}', tags=["Estudiantes"])
-def get_estudiante_by_id(estudiante_id: int):
-    db = Session()
-    estudiante = EstudianteService(db).get_estudiante_by_id(estudiante_id)
-    if estudiante is None:
-        return JSONResponse(content={"message": "Estudiante not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(estudiante), status_code=200)
+    estudiantes = EstudianteService(db).get_estudiante(filter)
+    if not estudiantes:
+        return JSONResponse(content={"message": "Estudiante(s) not found"}, status_code=404)
+    return JSONResponse(content=jsonable_encoder(estudiantes), status_code=200)
 
 @estudiante_router.post('/estudiantes', tags=["Estudiantes"])
 def create_estudiante(estudiante: Estudiante):

@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -6,24 +7,31 @@ from config.database import Session
 from config.database import get_db, Session
 from services.nota import NotaService
 
-
 nota_router = APIRouter()
 
-@nota_router.get('/notas', tags=["Notas"])
-def get_notas():
+@nota_router.get('/notas/filter', tags=["Notas"])
+def notas_filter(
+    nota_id: Optional[int] = None,
+    periodo_id: Optional[int] = None,
+    estudiante_id: Optional[int] = None,
+    clase_id: Optional[int] = None,
+    bloque: Optional[int] = None,
+    calificacion: Optional[str] = None,
+):
     db = Session()
-    notas = NotaService(db).get_notas()
-    if not notas:
-        return JSONResponse(content={"message": "Notas not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(notas), status_code=200)
+    filter = {
+        "nota_id": nota_id,
+        "periodo_id": periodo_id,
+        "estudiante_id": estudiante_id,
+        "clase_id": clase_id,
+        "bloque": bloque,
+        "calificacion": calificacion,
+    }
 
-@nota_router.get('/notas/{nota_id}', tags=["Notas"])
-def get_nota_by_id(nota_id: int):
-    db = Session()
-    nota = NotaService(db).get_nota_by_id(nota_id)
-    if nota is None:
-        return JSONResponse(content={"message": "Nota not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(nota), status_code=200)
+    notas = NotaService(db).get_nota(filter)
+    if not notas:
+        return JSONResponse(content={"message": "Nota(s) not found"}, status_code=404)
+    return JSONResponse(content=jsonable_encoder(notas), status_code=200)
 
 @nota_router.post('/notas', tags=["Notas"])
 def create_nota(nota: Nota):
