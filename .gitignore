@@ -1,2 +1,17 @@
 __pycache__
+__pycache__/
+*.py[cod]
 venv
+venv/
+.env/
+.virtualenv/
+*.env
+*.venv
+.envrc
+env/
+env.bak/
+*.log
+*.sqlite3
+.vscode/
+.idea/
+*.swp
