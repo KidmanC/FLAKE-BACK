@@ -5,11 +5,13 @@ class PeriodolectivoService:
     def __init__(self, db):
         self.db = db
 
-    def get_periodolectivo_by_id(self, periodo_id):
-        return self.db.query(PeriodolectivoModel).filter(PeriodolectivoModel.periodo_id == periodo_id).first()
-
-    def get_periodolectivos(self):
-        return self.db.query(PeriodolectivoModel).all()
+    def get_periodolectivo(self, filters:dict):
+        query = self.db.query(PeriodolectivoModel) 
+        
+        for field, value in filters.items():
+            if value is not None:  
+                query = query.filter(getattr(PeriodolectivoModel, field) == value)
+        return query.all()
     
     def add_periodolectivo(self, periodolectivo: PeriodoLectivo):
         new_periodolectivo = PeriodolectivoModel(**periodolectivo.dict())

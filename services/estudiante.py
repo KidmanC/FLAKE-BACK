@@ -5,8 +5,13 @@ class EstudianteService:
     def __init__(self, db):
         self.db = db
 
-    def get_estudiante_by_id(self, estudiante_id):
-        return self.db.query(EstudianteModel).filter(EstudianteModel.estudiante_id == estudiante_id).first()
+    def get_estudiante(self, filters:dict):
+        query = self.db.query(EstudianteModel) 
+        
+        for field, value in filters.items():
+            if value is not None:  
+                query = query.filter(getattr(EstudianteModel, field) == value)
+        return query.all()
     
     def get_notas(self, estudiante_id):
         notas = self.db.query(EstudianteModel).filter(EstudianteModel.estudiante_id == estudiante_id).first().notas
@@ -14,9 +19,6 @@ class EstudianteService:
         for nota in notas:
             calificaciones.append({"periodo": nota.periodo_id, "nota": nota.calificacion})
         return calificaciones
-
-    def get_estudiantes(self):
-        return self.db.query(EstudianteModel).all()
     
     def add_estudiante(self, estudiante: Estudiante):
         new_estudiante = EstudianteModel(**estudiante.dict())

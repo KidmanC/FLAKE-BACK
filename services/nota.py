@@ -5,11 +5,13 @@ class NotaService:
     def __init__(self, db):
         self.db = db
 
-    def get_nota_by_id(self, nota_id):
-        return self.db.query(NotaModel).filter(NotaModel.nota_id == nota_id).first()
-
-    def get_notas(self):
-        return self.db.query(NotaModel).all()
+    def get_nota(self, filters:dict):
+        query = self.db.query(NotaModel) 
+        
+        for field, value in filters.items():
+            if value is not None:  
+                query = query.filter(getattr(NotaModel, field) == value)
+        return query.all()
     
     def add_nota(self, nota: Nota):
         new_nota = NotaModel(**nota.dict())

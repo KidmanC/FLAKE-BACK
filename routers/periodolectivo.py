@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -8,21 +9,23 @@ from services.periodolectivo import PeriodolectivoService
 
 periodolectivo_router = APIRouter()
 
-@periodolectivo_router.get('/periodolectivos', tags=["Periodolectivos"])
-def get_periodolectivos():
+@periodolectivo_router.get('/periodolectivos/filter', tags=["Periodolectivos"])
+def periodolectivo_filter(
+    periodo_id: Optional[int] = None,
+    anio: Optional[int] = None,
+    esta_activo: Optional[str] = None,
+):
     db = Session()
-    periodolectivos = PeriodolectivoService(db).get_periodolectivos()
-    if not periodolectivos:
-        return JSONResponse(content={"message": "Periodolectivos not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(periodolectivos), status_code=200)
+    filter = {
+        "periodo_id": periodo_id,
+        "anio": anio,
+        "esta_activo": esta_activo,
+    }
 
-@periodolectivo_router.get('/periodolectivos/{periodolectivo_id}', tags=["Periodolectivos"])
-def get_periodolectivo_by_id(periodolectivo_id: int):
-    db = Session()
-    periodolectivo = PeriodolectivoService(db).get_periodolectivo_by_id(periodolectivo_id)
-    if periodolectivo is None:
-        return JSONResponse(content={"message": "PeriodoLectivo not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(periodolectivo), status_code=200)
+    periodoslectivos = PeriodolectivoService(db).get_periodolectivo(filter)
+    if not periodoslectivos:
+        return JSONResponse(content={"message": "Periodo(s) not found"}, status_code=404)
+    return JSONResponse(content=jsonable_encoder(periodoslectivos), status_code=200)
 
 @periodolectivo_router.post('/periodolectivos', tags=["Periodolectivos"])
 def create_periodolectivo(periodolectivo: PeriodoLectivo):

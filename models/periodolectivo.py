@@ -7,5 +7,4 @@ class Periodo_lectivo(Base):
 
     periodo_id = Column(Integer, primary_key=True)
     anio = Column(Integer)
-    bloques = Column(Integer)
-    semanas = Column(Integer)
+    esta_activo = Column(Integer)
