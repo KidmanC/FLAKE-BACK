@@ -19,13 +19,14 @@ class PeriodolectivoService:
         self.db.commit()
         return new_periodolectivo
 
-    def update_periodolectivo(self, periodo_id, periodolectivo: PeriodoLectivo):
-        query = self.db.query(PeriodolectivoModel).filter(PeriodolectivoModel.periodo_id == periodo_id).first()
+    def update_periodolectivo(self,filters: dict):
+        query = self.db.query(PeriodolectivoModel).filter(PeriodolectivoModel.periodo_id == filters['periodo_id']).first()
         if not query:
             return None
-        query.anio = periodolectivo.anio
-        query.bloques = periodolectivo.bloques
-        query.semanas = periodolectivo.semanas
+        for field, value in filters.items():
+            if value is not None:
+                setattr(query, field, value)
+
         self.db.commit()
         return query
 

@@ -19,17 +19,17 @@ class NotaService:
         self.db.commit()
         return new_nota
 
-    def update_nota(self, nota_id, nota: Nota):
-        query = self.db.query(NotaModel).filter(NotaModel.nota_id == nota_id).first()
+    def update_nota(self,filters: dict):
+        query = self.db.query(NotaModel).filter(NotaModel.nota_id == filters['nota_id']).first()
         if not query:
             return None
-        query.periodo_id = nota.periodo_id
-        query.estudiante_id = nota.estudiante_id
-        query.clase_id = nota.clase_id
-        query.bloque = nota.bloque
-        query.calificacion = nota.calificacion
+        for field, value in filters.items():
+            if value is not None:
+                setattr(query, field, value)
+
         self.db.commit()
         return query
+
 
     def delete_nota(self, nota_id):
         nota = self.db.query(NotaModel).filter(NotaModel.nota_id == nota_id).first()
