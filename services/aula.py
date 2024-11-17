@@ -7,10 +7,10 @@ class AulaService:
 
     def get_aula(self, filters: dict):
         query = self.db.query(AulaModel) 
-        # Aplica los filtros dinámicamente si existen
+
         for field, value in filters.items():
             if value is not None:  
-                query = query.filter(getattr(AulaModel, field) == value)
+                query = query.filter(getattr(AulaModel, field) == value) ###filtra dinamicamente
         return query.all()  
     
     def add_aula(self, aula: Aula):
@@ -19,16 +19,13 @@ class AulaService:
         self.db.commit()
         return new_aula
 
-    def update_aula(self, aula_id, aula: Aula):
-        query = self.db.query(AulaModel).filter(AulaModel.aula_id == aula_id).first()
+    def update_aula(self, filters: dict):
+        query = self.db.query(AulaModel).filter(AulaModel.aula_id == filters['aula_id']).first()
         if not query:
             return None
-        query.institucion_id = aula.institucion_id
-        query.periodo_id = aula.periodo_id
-        query.grado_texto = aula.grado_texto
-        query.grado_num = aula.grado_num
-        query.grupo = aula.grupo
-        query.jornada = aula.jornada
+        for field, value in filters.items():
+            if value is not None:
+                setattr(query, field, value) ###actualiza dinamicamente
         self.db.commit()
         return query
 

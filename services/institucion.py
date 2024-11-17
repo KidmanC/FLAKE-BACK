@@ -25,7 +25,6 @@ class InstitucionService:
         query = self.db.query(InstitucionModel).filter(InstitucionModel.institucion_id == institucion_id).first()
         if not query:
             return None
-        query.numero = institucion.numero
         query.localidad = institucion.localidad
         query.codigo_dane = institucion.codigo_dane
         query.nombre = institucion.nombre
