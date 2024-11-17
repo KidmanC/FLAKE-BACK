@@ -5,25 +5,37 @@ from schemas.institucion import Institucion
 from config.database import Session
 from config.database import get_db, Session
 from services.institucion import InstitucionService
+from typing import Optional, List
 
 
 institucion_router = APIRouter()
 
-@institucion_router.get('/institucions', tags=["Institucions"])
-def get_institucions():
+@institucion_router.get('/institucions/filter', tags=["Institucions"], response_model=List[Institucion])
+def institucion_filter(
+    institucion_id: Optional[int] = None,
+    numero: Optional[str] = None,
+    localidad: Optional[str] = None,
+    codigo_dane: Optional[str] = None,
+    nombre: Optional[str] = None,
+    rector: Optional[str] = None,
+    direccion: Optional[str] = None,
+    barrio: Optional[str] = None
+):
     db = Session()
-    institucions = InstitucionService(db).get_institucions()
+    filter = {
+        "institucion_id": institucion_id,
+        "numero": numero,
+        "localidad": localidad,
+        "codigo_dane": codigo_dane,
+        "nombre": nombre,
+        "rector": rector,
+        "direccion": direccion,
+        "barrio": barrio
+    }
+    institucions = InstitucionService(db).get_institucion(filter)
     if not institucions:
         return JSONResponse(content={"message": "Institucions not found"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(institucions), status_code=200)
-
-@institucion_router.get('/institucions/{institucion_id}', tags=["Institucions"])
-def get_institucion_by_id(institucion_id: int):
-    db = Session()
-    institucion = InstitucionService(db).get_institucion_by_id(institucion_id)
-    if institucion is None:
-        return JSONResponse(content={"message": "Institucion not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(institucion), status_code=200)
 
 @institucion_router.post('/institucions', tags=["Institucions"])
 def create_institucion(institucion: Institucion):
