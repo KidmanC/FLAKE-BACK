@@ -36,10 +36,20 @@ def create_clase(clase: Clase):
     query = ClaseService(db).add_clase(clase)
     return JSONResponse(content={"message": "Clase created", "clase": jsonable_encoder(query)}, status_code=201)
 
-@clase_router.put('/clases/{clase_id}', tags=["Clases"])
-def update_clase(clase_id: int, clase: Clase):
+@clase_router.put('/clases/edit/{clase_id}', tags=["Clases"])
+def update_clase(clase_id: int,
+    aula_id: Optional[int] = None,
+    tutor_id: Optional[int] = None,
+    periodo_id: Optional[int] = None, 
+    grado: Optional[Grado] = None):
     db = Session()
-    query = ClaseService(db).update_clase(clase_id, clase)
+    filter = {"clase_id": clase_id,
+    "aula_id": aula_id,
+    "tutor_id": tutor_id,
+    "periodo_id": periodo_id,
+    "grado": grado}
+
+    query = ClaseService(db).update_clase(filter)
     if query is None:
         return JSONResponse(content={"message": "Clase not found"}, status_code=404)
     return JSONResponse(content={"message": "Clase updated", "clase": jsonable_encoder(query)}, status_code=200)

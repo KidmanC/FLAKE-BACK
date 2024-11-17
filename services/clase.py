@@ -19,14 +19,14 @@ class ClaseService:
         self.db.commit()
         return new_clase
 
-    def update_clase(self, clase_id, clase: Clase):
-        query = self.db.query(ClaseModel).filter(ClaseModel.clase_id == clase_id).first()
+    def update_clase(self,filters: dict):
+        query = self.db.query(ClaseModel).filter(ClaseModel.clase_id == filters['clase_id']).first()
         if not query:
             return None
-        query.aula_id = clase.aula_id
-        query.tutor_id = clase.tutor_id
-        query.periodo_id = clase.periodo_id
-        query.grado = clase.grado
+        for field, value in filters.items():
+            if value is not None:
+                setattr(query, field, value)
+
         self.db.commit()
         return query
 
