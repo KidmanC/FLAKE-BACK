@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -11,7 +11,7 @@ from services.tutor import TutorService
 
 tutor_router = APIRouter()
 
-@tutor_router.get('/tutores/filter', tags=["Tutores"])
+@tutor_router.get('/tutores/filter', tags=["Tutores"], response_model=List[Tutor])
 def clase_filter(
     tutor_id: Optional[int] = None,
     identificacion: Optional[str] = None,

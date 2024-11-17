@@ -18,7 +18,7 @@ class Tutor(Base):
     celular = Column(String(15))
     direccion = Column(String(150))
     periodo_id = Column(Integer, ForeignKey('PERIODOLECTIVO.periodo_id'))
-    user = Column(String)
-    password = Column(String)
+    user = Column(String(50))
+    password = Column(String(255))
 
     periodo = relationship('Periodo_lectivo', backref='tutores', lazy="joined")

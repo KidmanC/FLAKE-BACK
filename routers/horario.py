@@ -5,25 +5,33 @@ from schemas.horario import Horario
 from config.database import Session
 from config.database import get_db, Session
 from services.horario import HorarioService
+from schemas.dia_semana import Dia_semana
+from datetime import time
+from typing import Optional, List
 
 
 horario_router = APIRouter()
 
-@horario_router.get('/horarios', tags=["Horarios"])
-def get_horarios():
+@horario_router.get('/horarios/filter', tags=["Horarios"], response_model=List[Horario])
+def horarios_filter(
+    horario_id: Optional[int] = None,
+    clase_id: Optional[int] = None,
+    dia_semana: Optional[Dia_semana] = None,
+    hora_inicio: Optional[time] = None,
+    hora_fin: Optional[time] = None
+):
     db = Session()
-    horarios = HorarioService(db).get_horarios()
+    filter = {
+        "horario_id": horario_id,
+        "clase_id": clase_id,
+        "dia_semana": dia_semana,
+        "hora_inicio": hora_inicio,
+        "hora_fin": hora_fin
+    }
+    horarios = HorarioService(db).get_horario(filter)
     if not horarios:
         return JSONResponse(content={"message": "Horarios not found"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(horarios), status_code=200)
-
-@horario_router.get('/horarios/{horario_id}', tags=["Horarios"])
-def get_horario_by_id(horario_id: int):
-    db = Session()
-    horario = HorarioService(db).get_horario_by_id(horario_id)
-    if horario is None:
-        return JSONResponse(content={"message": "Horario not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(horario), status_code=200)
 
 @horario_router.post('/horarios', tags=["Horarios"])
 def create_horario(horario: Horario):

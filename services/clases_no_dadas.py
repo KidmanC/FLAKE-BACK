@@ -5,14 +5,19 @@ class Clases_no_dadas_Service:
     def __init__(self, db):
         self.db = db
 
-    def get_clase_no_dada_by_id(self, clase_no_dada_id):
-        return self.db.query(Clases_no_dadas_Model).filter(Clases_no_dadas_Model.clase_no_dada_id == clase_no_dada_id).first()
+    def get_clase_no_dada(self, filters: dict):
+        query = self.db.query(Clases_no_dadas_Model)
 
-    def get_clases_no_dadas(self):
-        return self.db.query(Clases_no_dadas_Model).all()
+        if not any(value is not None for value in filters.values()):
+            return query.all()
+        
+        for field, value in filters.items():
+            if value is not None:
+                query = query.filter(getattr(Clases_no_dadas_Model, field) == value)
+        return query.all() 
     
     def add_clase_no_dada(self, clase_no_dada: Clases_no_dadas):
-        new_clase_no_dada = Clases_no_dadas_Model(**clase_no_dada.dict())
+        new_clase_no_dada = Clases_no_dadas_Model(**clase_no_dada.model_dump())
         self.db.add(new_clase_no_dada)
         self.db.commit()
         return new_clase_no_dada

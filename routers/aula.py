@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -13,7 +13,7 @@ from services.aula import AulaService
 aula_router = APIRouter()
 
 
-@aula_router.get('/aulas/filter', tags=["Aulas"])
+@aula_router.get('/aulas/filter', tags=["Aulas"], response_model=List[Aula])
 def aula_filter(
     aula_id: Optional[int] = None,
     institucion_id: Optional[int] = None,

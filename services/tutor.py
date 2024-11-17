@@ -6,7 +6,10 @@ class TutorService:
         self.db = db
 
     def get_tutor(self, filters: dict):
-        query = self.db.query(TutorModel) 
+        query = self.db.query(TutorModel)
+        
+        if not any(value is not None for value in filters.values()):
+            return query.all() 
         
         for field, value in filters.items():
             if value is not None:  
@@ -14,7 +17,7 @@ class TutorService:
         return query.all() 
     
     def add_tutor(self, tutor: Tutor):
-        new_tutor = TutorModel(**tutor.dict())
+        new_tutor = TutorModel(**tutor.model_dump())
         self.db.add(new_tutor)
         self.db.commit()
         return new_tutor
