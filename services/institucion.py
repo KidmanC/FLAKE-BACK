@@ -5,14 +5,18 @@ class InstitucionService:
     def __init__(self, db):
         self.db = db
 
-    def get_institucion_by_id(self, institucion_id):
-        return self.db.query(InstitucionModel).filter(InstitucionModel.institucion_id == institucion_id).first()
+    def get_institucion(self, filters: dict):
+        query = self.db.query(InstitucionModel)
+        if not any(value is not None for value in filters.values()):
+            return query.all()
+        
+        for field, value in filters.items():
+            if value is not None:
+                query = query.filter(getattr(InstitucionModel, field) == value)
+        return query.all() 
 
-    def get_institucions(self):
-        return self.db.query(InstitucionModel).all()
-    
     def add_institucion(self, institucion: Institucion):
-        new_institucion = InstitucionModel(**institucion.dict())
+        new_institucion = InstitucionModel(**institucion.model_dump())
         self.db.add(new_institucion)
         self.db.commit()
         return new_institucion
@@ -21,7 +25,6 @@ class InstitucionService:
         query = self.db.query(InstitucionModel).filter(InstitucionModel.institucion_id == institucion_id).first()
         if not query:
             return None
-        query.numero = institucion.numero
         query.localidad = institucion.localidad
         query.codigo_dane = institucion.codigo_dane
         query.nombre = institucion.nombre

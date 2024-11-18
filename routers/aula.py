@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -13,7 +13,7 @@ from services.aula import AulaService
 aula_router = APIRouter()
 
 
-@aula_router.get('/aulas/filter', tags=["Aulas"])
+@aula_router.get('/aulas/filter', tags=["Aulas"], response_model=List[Aula])
 def aula_filter(
     aula_id: Optional[int] = None,
     institucion_id: Optional[int] = None,
@@ -42,10 +42,23 @@ def create_aula(aula: Aula):
     query = AulaService(db).add_aula(aula)
     return JSONResponse(content={"message": "Aula created", "aula": jsonable_encoder(query)}, status_code=201)
 
-@aula_router.put('/aulas/{aula_id}', tags=["Aulas"])
-def update_aula(aula_id: int, aula: Aula):
+@aula_router.put('/aulas/edit/{aula_id}', tags=["Aulas"])
+def update_aula(aula_id: int,
+    institucion_id: Optional[int] = None,
+    periodo_id: Optional[int] = None,
+    grado_texto: Optional[Grado] = None, 
+    grado_num: Optional[int] = None,
+    grupo: Optional[str] = None,
+    jornada: Optional[Jornada] = None):
     db = Session()
-    query = AulaService(db).update_aula(aula_id, aula)
+    filter = {"aula_id": aula_id,
+    "institucion_id": institucion_id,
+    "periodo_id": periodo_id,
+    "grado_texto": grado_texto,
+    "grado_num": grado_num,
+    "grupo": grupo,
+    "jornada": jornada}
+    query = AulaService(db).update_aula(filter)
     if query is None:
         return JSONResponse(content={"message": "Aula not found"}, status_code=404)
     return JSONResponse(content={"message": "Aula updated", "aula": jsonable_encoder(query)}, status_code=200)

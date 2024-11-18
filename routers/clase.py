@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -8,10 +8,9 @@ from config.database import get_db, Session
 from schemas.grado import Grado
 from services.clase import ClaseService
 
-## diego se besó a mi abuelo
 clase_router = APIRouter()
 
-@clase_router.get('/clases/filter', tags=["Clases"])
+@clase_router.get('/clases/filter', tags=["Clases"], response_model=List[Clase])
 def clase_filter(
     clase_id: Optional[int] = None,
     aula_id: Optional[int] = None,
@@ -54,7 +53,7 @@ def update_clase(clase_id: int,
         return JSONResponse(content={"message": "Clase not found"}, status_code=404)
     return JSONResponse(content={"message": "Clase updated", "clase": jsonable_encoder(query)}, status_code=200)
 
-@clase_router.delete('/clases/{clase_id}', tags=["Clases"])
+@clase_router.delete('/clases/{clase_id}/', tags=["Clases"])
 def delete_clase(clase_id: int):
     db = Session()
     query = ClaseService(db).delete_clase(clase_id)

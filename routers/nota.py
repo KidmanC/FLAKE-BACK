@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -9,7 +9,7 @@ from services.nota import NotaService
 
 nota_router = APIRouter()
 
-@nota_router.get('/notas/filter', tags=["Notas"])
+@nota_router.get('/notas/filter', tags=["Notas"], response_model=List[Nota])
 def notas_filter(
     nota_id: Optional[int] = None,
     periodo_id: Optional[int] = None,

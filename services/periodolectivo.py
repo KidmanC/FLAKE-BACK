@@ -7,6 +7,9 @@ class PeriodolectivoService:
 
     def get_periodolectivo(self, filters:dict):
         query = self.db.query(PeriodolectivoModel) 
+
+        if not any(value is not None for value in filters.values()):
+            return query.all()
         
         for field, value in filters.items():
             if value is not None:  
@@ -14,7 +17,7 @@ class PeriodolectivoService:
         return query.all()
     
     def add_periodolectivo(self, periodolectivo: PeriodoLectivo):
-        new_periodolectivo = PeriodolectivoModel(**periodolectivo.dict())
+        new_periodolectivo = PeriodolectivoModel(**periodolectivo.model_dump())
         self.db.add(new_periodolectivo)
         self.db.commit()
         return new_periodolectivo
