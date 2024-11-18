@@ -39,9 +39,8 @@ def create_nota(nota: Nota):
     query = NotaService(db).add_nota(nota)
     return JSONResponse(content={"message": "Nota created", "nota": jsonable_encoder(query)}, status_code=201)
 
-@nota_router.put('/notas/edit', tags=["Notas"])
-def update_nota(
-    nota_id: int = None,
+@nota_router.put('/notas/edit/{nota_id}', tags=["Notas"])
+def update_nota(nota_id: int = None,
     periodo_id: Optional[int] = None,
     estudiante_id: Optional[int] = None,
     clase_id: Optional[int] = None,
@@ -62,9 +61,6 @@ def update_nota(
     if query is None:
         return JSONResponse(content={"message": "Nota not found"}, status_code=404)
     return JSONResponse(content={"message": "Nota updated"}, status_code=200)
-
-
-
 
 @nota_router.delete('/notas/{nota_id}', tags=["Notas"])
 def delete_nota(nota_id: int):
