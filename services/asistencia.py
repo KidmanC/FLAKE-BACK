@@ -5,14 +5,20 @@ class AsistenciaService:
     def __init__(self, db):
         self.db = db
 
-    def get_asistencia_by_id(self, asistencia_id):
-        return self.db.query(AsistenciaModel).filter(AsistenciaModel.asistencia_id == asistencia_id).first()
+    def get_asistencia(self, filters: dict):
+        query = self.db.query(AsistenciaModel)
 
-    def get_asistencias(self):
-        return self.db.query(AsistenciaModel).all()
+        if not any(value is not None for value in filters.values()):
+            return query.all()
+        
+        for field, value in filters.items():
+            if value is not None:
+                query = query.filter(getattr(AsistenciaModel, field) == value)
+        return query.all() 
+
     
     def add_asistencia(self, asistencia: Asistencia):
-        new_asistencia = AsistenciaModel(**asistencia.dict())
+        new_asistencia = AsistenciaModel(**asistencia.model_dump())
         self.db.add(new_asistencia)
         self.db.commit()
         return new_asistencia

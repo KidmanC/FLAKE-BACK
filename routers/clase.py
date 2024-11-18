@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -10,7 +10,7 @@ from services.clase import ClaseService
 
 clase_router = APIRouter()
 
-@clase_router.get('/clases/filter', tags=["Clases"])
+@clase_router.get('/clases/filter', tags=["Clases"], response_model=List[Clase])
 def clase_filter(
     clase_id: Optional[int] = None,
     aula_id: Optional[int] = None,

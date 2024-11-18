@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -14,7 +14,7 @@ from datetime import date
 
 estudiante_router = APIRouter()
 
-@estudiante_router.get('/estudiantes/filter', tags=["Estudiantes"])
+@estudiante_router.get('/estudiantes/filter', tags=["Estudiantes"], response_model=List[Estudiante])
 def Estudiantes_filter(
     estudiante_id: Optional[int] = None,
     aula_id: Optional[int] = None,

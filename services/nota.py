@@ -8,13 +8,16 @@ class NotaService:
     def get_nota(self, filters:dict):
         query = self.db.query(NotaModel) 
         
+        if not any(value is not None for value in filters.values()):
+            return query.all()
+
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(NotaModel, field) == value)
         return query.all()
     
     def add_nota(self, nota: Nota):
-        new_nota = NotaModel(**nota.dict())
+        new_nota = NotaModel(**nota.model_dump())
         self.db.add(new_nota)
         self.db.commit()
         return new_nota

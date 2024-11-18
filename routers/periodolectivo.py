@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -9,7 +9,7 @@ from services.periodolectivo import PeriodolectivoService
 
 periodolectivo_router = APIRouter()
 
-@periodolectivo_router.get('/periodolectivos/filter', tags=["Periodolectivos"])
+@periodolectivo_router.get('/periodolectivos/filter', tags=["Periodolectivos"], response_model=List[PeriodoLectivo])
 def periodolectivo_filter(
     periodo_id: Optional[int] = None,
     anio: Optional[int] = None,

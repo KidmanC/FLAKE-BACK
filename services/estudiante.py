@@ -8,6 +8,9 @@ class EstudianteService:
     def get_estudiante(self, filters:dict):
         query = self.db.query(EstudianteModel) 
         
+        if not any(value is not None for value in filters.values()):
+            return query.all()
+
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(EstudianteModel, field) == value)
@@ -20,7 +23,7 @@ class EstudianteService:
         return sum(nota.calificacion for nota in notas if nota.periodo_id == periodo_id) / 4
 
     def add_estudiante(self, estudiante: Estudiante):
-        new_estudiante = EstudianteModel(**estudiante.dict())
+        new_estudiante = EstudianteModel(**estudiante.model_dump())
         self.db.add(new_estudiante)
         self.db.commit()
         return new_estudiante
