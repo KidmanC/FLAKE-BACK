@@ -6,11 +6,7 @@ class AsistenciaService:
         self.db = db
 
     def get_asistencia(self, filters: dict):
-        query = self.db.query(AsistenciaModel)
-
-        if not any(value is not None for value in filters.values()):
-            return query.all()
-        
+        query = self.db.query(AsistenciaModel)      
         for field, value in filters.items():
             if value is not None:
                 query = query.filter(getattr(AsistenciaModel, field) == value)

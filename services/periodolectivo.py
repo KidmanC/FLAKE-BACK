@@ -7,10 +7,6 @@ class PeriodolectivoService:
 
     def get_periodolectivo(self, filters:dict):
         query = self.db.query(PeriodolectivoModel) 
-
-        if not any(value is not None for value in filters.values()):
-            return query.all()
-        
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(PeriodolectivoModel, field) == value)

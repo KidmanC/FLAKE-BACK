@@ -7,10 +7,6 @@ class AulaService:
 
     def get_aula(self, filters: dict):
         query = self.db.query(AulaModel) 
-
-        if not any(value is not None for value in filters.values()):
-            return query.all()
-
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(AulaModel, field) == value) ###filtra dinamicamente

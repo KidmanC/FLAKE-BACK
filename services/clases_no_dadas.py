@@ -7,10 +7,6 @@ class Clases_no_dadas_Service:
 
     def get_clase_no_dada(self, filters: dict):
         query = self.db.query(Clases_no_dadas_Model)
-
-        if not any(value is not None for value in filters.values()):
-            return query.all()
-        
         for field, value in filters.items():
             if value is not None:
                 query = query.filter(getattr(Clases_no_dadas_Model, field) == value)
