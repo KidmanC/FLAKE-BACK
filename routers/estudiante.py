@@ -61,8 +61,8 @@ def create_estudiante(estudiante: Estudiante):
     query = EstudianteService(db).add_estudiante(estudiante)
     return JSONResponse(content={"message": "Estudiante created", "estudiante": jsonable_encoder(query)}, status_code=201)
 
-@estudiante_router.get('/estudiantes/edit/{estudiante_id}', tags=["Estudiantes"])
-def update_estudiante(estudiante_id: int = None,
+@estudiante_router.put('/estudiantes/edit/{estudiante_id}', tags=["Estudiantes"])
+def update_estudiante(estudiante_id: int,
     aula_id: Optional[int] = None,
     periodo_id: Optional[int] = None,
     grado_texto: Optional[Grado] = None,

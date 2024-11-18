@@ -34,7 +34,7 @@ def create_periodolectivo(periodolectivo: PeriodoLectivo):
     return JSONResponse(content={"message": "PeriodoLectivo created", "periodolectivo": jsonable_encoder(query)}, status_code=201)
 
 @periodolectivo_router.put('/periodolectivos/edit/{periodo_id}', tags=["Periodolectivos"])
-def update_periodolectivo(periodo_id: int = None,
+def update_periodolectivo(periodo_id: int,
     anio: Optional[int] = None,
     esta_activo: Optional[str] = None,
 ):

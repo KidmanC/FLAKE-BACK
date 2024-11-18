@@ -40,7 +40,7 @@ def create_nota(nota: Nota):
     return JSONResponse(content={"message": "Nota created", "nota": jsonable_encoder(query)}, status_code=201)
 
 @nota_router.put('/notas/edit/{nota_id}', tags=["Notas"])
-def update_nota(nota_id: int = None,
+def update_nota(nota_id: int,
     periodo_id: Optional[int] = None,
     estudiante_id: Optional[int] = None,
     clase_id: Optional[int] = None,
