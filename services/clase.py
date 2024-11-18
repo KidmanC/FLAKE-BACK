@@ -7,13 +7,17 @@ class ClaseService:
 
     def get_clase(self, filters: dict):
         query = self.db.query(ClaseModel) 
+
+        if not any(value is not None for value in filters.values()):
+            return query.all()
+        
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(ClaseModel, field) == value)  ###filtra dinamicamente
         return query.all() 
     
     def add_clase(self, clase: Clase):
-        new_clase = ClaseModel(**clase.dict())
+        new_clase = ClaseModel(**clase.model_dump())
         self.db.add(new_clase)
         self.db.commit()
         return new_clase

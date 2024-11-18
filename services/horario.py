@@ -5,14 +5,19 @@ class HorarioService:
     def __init__(self, db):
         self.db = db
 
-    def get_horario_by_id(self, horario_id):
-        return self.db.query(HorarioModel).filter(HorarioModel.horario_id == horario_id).first()
+    def get_horario(self, filters: dict):
+        query = self.db.query(HorarioModel)
 
-    def get_horarios(self):
-        return self.db.query(HorarioModel).all()
+        if not any(value is not None for value in filters.values()):
+            return query.all()
+        
+        for field, value in filters.items():
+            if value is not None:
+                query = query.filter(getattr(HorarioModel, field) == value)
+        return query.all() 
     
     def add_horario(self, horario: Horario):
-        new_horario = HorarioModel(**horario.dict())
+        new_horario = HorarioModel(**horario.model_dump())
         self.db.add(new_horario)
         self.db.commit()
         return new_horario
