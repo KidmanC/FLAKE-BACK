@@ -41,7 +41,7 @@ def create_nota(nota: Nota):
 
 @nota_router.put('/notas/edit', tags=["Notas"])
 def update_nota(
-    nota_id: Optional[int] = None,
+    nota_id: int = None,
     periodo_id: Optional[int] = None,
     estudiante_id: Optional[int] = None,
     clase_id: Optional[int] = None,

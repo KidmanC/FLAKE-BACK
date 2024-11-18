@@ -63,7 +63,7 @@ def create_estudiante(estudiante: Estudiante):
 
 @estudiante_router.get('/estudiantes/edit', tags=["Estudiantes"])
 def update_estudiante(
-    estudiante_id: Optional[int] = None,
+    estudiante_id: int = None,
     aula_id: Optional[int] = None,
     periodo_id: Optional[int] = None,
     grado_texto: Optional[Grado] = None,

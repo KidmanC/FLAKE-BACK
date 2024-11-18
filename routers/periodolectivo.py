@@ -35,7 +35,7 @@ def create_periodolectivo(periodolectivo: PeriodoLectivo):
 
 @periodolectivo_router.put('/periodolectivos/edit', tags=["Periodolectivos"])
 def update_periodolectivo(
-    periodo_id: Optional[int] = None,
+    periodo_id: int = None,
     anio: Optional[int] = None,
     esta_activo: Optional[str] = None,
 ):
