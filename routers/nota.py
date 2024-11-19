@@ -60,7 +60,7 @@ def update_nota(nota_id: int,
     query = NotaService(db).update_nota(filter)
     if query is None:
         return JSONResponse(content={"message": "Nota no encontrada"}, status_code=404)
-    return JSONResponse(content={"message": "Nota actualizada exitosamente"}, status_code=200)
+    return JSONResponse(content={"message": "Nota actualizada exitosamente", "nota": jsonable_encoder(query)}, status_code=200)
 
 @nota_router.delete('/notas/{nota_id}', tags=["Notas"])
 def delete_nota(nota_id: int):

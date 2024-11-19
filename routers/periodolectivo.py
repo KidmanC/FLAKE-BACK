@@ -48,7 +48,7 @@ def update_periodolectivo(periodo_id: int,
     query = PeriodolectivoService(db).update_periodolectivo(filter)
     if query is None:
         return JSONResponse(content={"message": "Periodo no encontrado"}, status_code=404)
-    return JSONResponse(content={"message": "Periodo actualizado exitosamente"}, status_code=200)
+    return JSONResponse(content={"message": "Periodo actualizado exitosamente", "periodolectivo": jsonable_encoder(query)}, status_code=200)
 
 
 @periodolectivo_router.delete('/periodoslectivos/{periodolectivo_id}', tags=["Periodoslectivos"])

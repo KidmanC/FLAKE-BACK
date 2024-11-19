@@ -51,7 +51,7 @@ def update_clase(clase_id: int,
     query = ClaseService(db).update_clase(filter)
     if query is None:
         return JSONResponse(content={"message": "Clase no encontrada"}, status_code=404)
-    return JSONResponse(content={"message": "Clase actualizada exitosamente"}, status_code=200)
+    return JSONResponse(content={"message": "Clase actualizada exitosamente", "clase": jsonable_encoder(query)}, status_code=200)
 
 @clase_router.delete('/clases/{clase_id}/', tags=["Clases"])
 def delete_clase(clase_id: int):

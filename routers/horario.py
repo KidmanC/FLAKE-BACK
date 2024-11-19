@@ -64,7 +64,7 @@ def update_horario(
             return JSONResponse(content={"message": "Horario no encontrado"}, status_code=404)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    return JSONResponse(content={"message": "Horario actualizado exitosamente"}, status_code=200)
+    return JSONResponse(content={"message": "Horario actualizado exitosamente", "horario": jsonable_encoder(query)}, status_code=200)
 
 @horario_router.delete('/horarios/{horario_id}', tags=["Horarios"])
 def delete_horario(horario_id: int):

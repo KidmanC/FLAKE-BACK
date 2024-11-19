@@ -61,7 +61,7 @@ def update_aula(aula_id: int,
     query = AulaService(db).update_aula(filter)
     if query is None:
         return JSONResponse(content={"message": "Aula no encontrada"}, status_code=404)
-    return JSONResponse(content={"message": "Aula actualizada exitosamente"}, status_code=200)
+    return JSONResponse(content={"message": "Aula actualizada exitosamente", "aula": jsonable_encoder(query)}, status_code=200)
 
 @aula_router.delete('/aulas/{aula_id}', tags=["Aulas"])
 def delete_aula(aula_id: int):

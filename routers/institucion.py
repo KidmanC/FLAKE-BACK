@@ -67,7 +67,7 @@ def update_institucion(
     query = InstitucionService(db).update_institucion(filter)
     if query is None:
         return JSONResponse(content={"message": "Institucion no encontrada"}, status_code=404)
-    return JSONResponse(content={"message": "Institucion actualizada exitosamente"}, status_code=200)
+    return JSONResponse(content={"message": "Institucion actualizada exitosamente", "institucion": jsonable_encoder(query)}, status_code=200)
 
 @institucion_router.delete('/instituciones/{institucion_id}', tags=["Instituciones"])
 def delete_institucion(institucion_id: int):
