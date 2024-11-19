@@ -38,13 +38,24 @@ def create_clase_no_dada(clase_no_dada: Clases_no_dadas):
     query = Clases_no_dadas_Service(db).add_clase_no_dada(clase_no_dada)
     return JSONResponse(content={"message": "Clase_no_dada created", "clase_no_dada": jsonable_encoder(query)}, status_code=201)
 
-@clases_no_dadas_router.put('/clases_no_dadas/{clase_no_dada_id}', tags=["Clases_no_dadas"])
-def update_clases_no_dadas(clase_no_dada_id: int, clase_no_dada: Clases_no_dadas):
+@clases_no_dadas_router.put('/clases_no_dadas/edit/{clase_no_dada_id}', tags=["Clases_no_dadas"])
+def update_clases_no_dadas(
+    clase_no_dada_id: Optional[int] = None,
+    clase_id: Optional[int] = None,
+    fecha_clase_no_dada: Optional[date] = None,
+    motivo: Optional[Motivo] = None
+):
     db = Session()
-    query = Clases_no_dadas_Service(db).update_clases_no_dadas(clase_no_dada_id, clase_no_dada)
+    filter={
+        "clase_no_dada_id": clase_no_dada_id,
+        "clase_id": clase_id,
+        "fecha_clase_no_dada": fecha_clase_no_dada,
+        "motivo": motivo
+    }
+    query = Clases_no_dadas_Service(db).update_clases_no_dadas(filter)
     if query is None:
         return JSONResponse(content={"message": "Clases_no_dadas not found"}, status_code=404)
-    return JSONResponse(content={"message": "Clases_no_dadas updated", "clase_no_dada": jsonable_encoder(query)}, status_code=200)
+    return JSONResponse(content={"message": "Clases_no_dadas updated"}, status_code=200)
 
 @clases_no_dadas_router.delete('/clases_no_dadas/{clases_no_dadas_id}', tags=["Clases_no_dadas"])
 def delete_clase_no_dada(clase_no_dada_id: int):

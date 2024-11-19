@@ -18,16 +18,13 @@ class InstitucionService:
         self.db.commit()
         return new_institucion
 
-    def update_institucion(self, institucion_id, institucion: Institucion):
-        query = self.db.query(InstitucionModel).filter(InstitucionModel.institucion_id == institucion_id).first()
+    def update_institucion(self,  filters: dict):
+        query = self.db.query(InstitucionModel).filter(InstitucionModel.institucion_id == filters['institucion_id']).first()
         if not query:
             return None
-        query.localidad = institucion.localidad
-        query.codigo_dane = institucion.codigo_dane
-        query.nombre = institucion.nombre
-        query.rector = institucion.rector
-        query.direccion = institucion.direccion
-        query.barrio = institucion.barrio
+        for field, value in filters.items():
+            if value is not None:
+                setattr(query, field, value)
         self.db.commit()
         return query
 

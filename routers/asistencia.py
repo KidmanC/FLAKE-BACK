@@ -18,7 +18,6 @@ def asistencia_filter(
     estudiante_id: Optional[int] = None,
     fecha: Optional[date] = None,
     presente: Optional[Presente] = None
-
 ):
     db = Session()
     filter = {
@@ -39,13 +38,26 @@ def create_asistencia(asistencia: Asistencia):
     query = AsistenciaService(db).add_asistencia(asistencia)
     return JSONResponse(content={"message": "Asistencia created", "asistencia": jsonable_encoder(query)}, status_code=201)
 
-@asistencia_router.put('/asistencias/{asistencia_id}', tags=["Asistencias"])
-def update_asistencia(asistencia_id: int, asistencia: Asistencia):
+@asistencia_router.put('/asistencias/edit/{asistencia_id}', tags=["Asistencias"])
+def update_asistencia(
+    asistencia_id: Optional[int] = None,
+    clase_id: Optional[int] = None,
+    estudiante_id: Optional[int] = None,
+    fecha: Optional[date] = None,
+    presente: Optional[Presente] = None
+):
     db = Session()
-    query = AsistenciaService(db).update_asistencia(asistencia_id, asistencia)
+    filter = {
+        "asistencia_id": asistencia_id,
+        "clase_id": clase_id,
+        "estudiante_id": estudiante_id,
+        "fecha": fecha,
+        "presente": presente
+    }
+    query = AsistenciaService(db).update_asistencia(filter)
     if query is None:
         return JSONResponse(content={"message": "Asistencia not found"}, status_code=404)
-    return JSONResponse(content={"message": "Asistencia updated", "asistencia": jsonable_encoder(query)}, status_code=200)
+    return JSONResponse(content={"message": "Asistencia updated"}, status_code=200)
 
 @asistencia_router.delete('/asistencias/{asistencia_id}', tags=["Asistencias"])
 def delete_asistencia(asistencia_id: int):
