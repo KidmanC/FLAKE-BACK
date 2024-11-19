@@ -13,7 +13,7 @@ asistencia_router = APIRouter()
 
 @asistencia_router.get('/asistencias/filter', tags=["Asistencias"], response_model=List[Asistencia])
 def asistencia_filter(
-    asistencia_id: Optional[int] = None,
+    asistencia_id: int,
     clase_id: Optional[int] = None,
     estudiante_id: Optional[int] = None,
     fecha: Optional[date] = None,

@@ -40,7 +40,7 @@ def create_clase_no_dada(clase_no_dada: Clases_no_dadas):
 
 @clases_no_dadas_router.put('/clases_no_dadas/edit/{clase_no_dada_id}', tags=["Clases_no_dadas"])
 def update_clases_no_dadas(
-    clase_no_dada_id: Optional[int] = None,
+    clase_no_dada_id: int,
     clase_id: Optional[int] = None,
     fecha_clase_no_dada: Optional[date] = None,
     motivo: Optional[Motivo] = None

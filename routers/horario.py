@@ -41,7 +41,7 @@ def create_horario(horario: Horario):
 
 @horario_router.put('/horarios/edit/{horario_id}', tags=["Horarios"])
 def update_horario(
-    horario_id: Optional[int] = None,
+    horario_id: int,
     clase_id: Optional[int] = None,
     dia_semana: Optional[Dia_semana] = None,
     hora_inicio: Optional[time] = None,

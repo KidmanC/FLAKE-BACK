@@ -44,7 +44,8 @@ def create_institucion(institucion: Institucion):
     return JSONResponse(content={"message": "Institucion created", "institucion": jsonable_encoder(query)}, status_code=201)
 
 @institucion_router.put('/institucions/edit/{institucion_id}', tags=["Institucions"])
-def update_institucion(   institucion_id: Optional[int] = None,
+def update_institucion(
+    institucion_id: int,
     numero: Optional[str] = None,
     localidad: Optional[str] = None,
     codigo_dane: Optional[str] = None,
