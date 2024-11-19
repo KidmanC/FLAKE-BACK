@@ -30,27 +30,42 @@ def notas_filter(
 
     notas = NotaService(db).get_nota(filter)
     if not notas:
-        return JSONResponse(content={"message": "Nota(s) not found"}, status_code=404)
+        return JSONResponse(content={"message": "Nota no encontrada"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(notas), status_code=200)
 
 @nota_router.post('/notas', tags=["Notas"])
 def create_nota(nota: Nota):
     db = Session()
     query = NotaService(db).add_nota(nota)
-    return JSONResponse(content={"message": "Nota created", "nota": jsonable_encoder(query)}, status_code=201)
+    return JSONResponse(content={"message": "Nota creada exitosamente", "nota": jsonable_encoder(query)}, status_code=201)
 
-@nota_router.put('/notas/{nota_id}', tags=["Notas"])
-def update_nota(nota_id: int, nota: Nota):
+@nota_router.put('/notas/edit/{nota_id}', tags=["Notas"])
+def update_nota(nota_id: int,
+    periodo_id: Optional[int] = None,
+    estudiante_id: Optional[int] = None,
+    clase_id: Optional[int] = None,
+    bloque: Optional[int] = None,
+    calificacion: Optional[str] = None,
+):
     db = Session()
-    query = NotaService(db).update_nota(nota_id, nota)
+    filter = {
+        "nota_id": nota_id,
+        "periodo_id": periodo_id,
+        "estudiante_id": estudiante_id,
+        "clase_id": clase_id,
+        "bloque": bloque,
+        "calificacion": calificacion,
+    }
+
+    query = NotaService(db).update_nota(filter)
     if query is None:
-        return JSONResponse(content={"message": "Nota not found"}, status_code=404)
-    return JSONResponse(content={"message": "Nota updated", "nota": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Nota no encontrada"}, status_code=404)
+    return JSONResponse(content={"message": "Nota actualizada exitosamente"}, status_code=200)
 
 @nota_router.delete('/notas/{nota_id}', tags=["Notas"])
 def delete_nota(nota_id: int):
     db = Session()
     query = NotaService(db).delete_nota(nota_id)
     if query is None:
-        return JSONResponse(content={"message": "Nota not found"}, status_code=404)
-    return JSONResponse(content={"message": "Nota deleted", "nota": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Nota no encontrada"}, status_code=404)
+    return JSONResponse(content={"message": "Nota eliminada exitosamente", "nota": jsonable_encoder(query)}, status_code=200)

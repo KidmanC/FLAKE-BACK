@@ -12,7 +12,7 @@ from services.tutor import TutorService
 tutor_router = APIRouter()
 
 @tutor_router.get('/tutores/filter', tags=["Tutores"], response_model=List[Tutor])
-def clase_filter(
+def tutor_filter(
     tutor_id: Optional[int] = None,
     identificacion: Optional[str] = None,
     tipo_identificacion: Optional[Tipo_identificacion] = None,
@@ -37,16 +37,16 @@ def clase_filter(
     "celular": celular,
     "direccion": direccion,
     "periodo_id": periodo_id}
-    clase = TutorService(db).get_tutor(filter)
-    if not clase:
-        return JSONResponse(content={"message": "Clase not found"}, status_code=404)
-    return JSONResponse(content=jsonable_encoder(clase), status_code=200)
+    tutor = TutorService(db).get_tutor(filter)
+    if not tutor:
+        return JSONResponse(content={"message": "Tutor no encontrado"}, status_code=404)
+    return JSONResponse(content=jsonable_encoder(tutor), status_code=200)
 
 @tutor_router.post('/tutores', tags=["Tutores"])
 def create_tutor(tutor: Tutor):
     db = Session()
     query = TutorService(db).add_tutor(tutor)
-    return JSONResponse(content={"message": "Tutor created", "tutor": jsonable_encoder(query)}, status_code=201)
+    return JSONResponse(content={"message": "Tutor creado correctamente", "tutor": jsonable_encoder(query)}, status_code=201)
 
 @tutor_router.put('/tutores/edit/{tutor_id}', tags=["Tutores"])
 def update_tutor(tutor_id: int,
@@ -78,13 +78,13 @@ def update_tutor(tutor_id: int,
     "password": password}
     query = TutorService(db).update_tutor(filter)
     if query is None:
-        return JSONResponse(content={"message": "Tutor not found"}, status_code=404)
-    return JSONResponse(content={"message": "Tutor updated", "tutor": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Tutor no encontrado"}, status_code=404)
+    return JSONResponse(content={"message": "Tutor actualizado correctamente"}, status_code=200)
 
 @tutor_router.delete('/tutores/{tutor_id}', tags=["Tutores"])
 def delete_tutor(tutor_id: int):
     db = Session()
     query = TutorService(db).delete_tutor(tutor_id)
     if query is None:
-        return JSONResponse(content={"message": "Tutor not found"}, status_code=404)
-    return JSONResponse(content={"message": "Tutor deleted", "tutor": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Tutor no encontrado"}, status_code=404)
+    return JSONResponse(content={"message": "Tutor eliminado correctamente"}, status_code=200)

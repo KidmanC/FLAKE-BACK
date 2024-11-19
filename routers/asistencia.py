@@ -29,14 +29,14 @@ def asistencia_filter(
     }
     asistencias = AsistenciaService(db).get_asistencia(filter)
     if not asistencias:
-        return JSONResponse(content={"message": "Asistencias not found"}, status_code=404)
+        return JSONResponse(content={"message": "Asistencia no encontrada"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(asistencias), status_code=200)
 
 @asistencia_router.post('/asistencias', tags=["Asistencias"])
 def create_asistencia(asistencia: Asistencia):
     db = Session()
     query = AsistenciaService(db).add_asistencia(asistencia)
-    return JSONResponse(content={"message": "Asistencia created", "asistencia": jsonable_encoder(query)}, status_code=201)
+    return JSONResponse(content={"message": "Asistencia creada exitosamente", "asistencia": jsonable_encoder(query)}, status_code=201)
 
 @asistencia_router.put('/asistencias/edit/{asistencia_id}', tags=["Asistencias"])
 def update_asistencia(
@@ -56,13 +56,13 @@ def update_asistencia(
     }
     query = AsistenciaService(db).update_asistencia(filter)
     if query is None:
-        return JSONResponse(content={"message": "Asistencia not found"}, status_code=404)
-    return JSONResponse(content={"message": "Asistencia updated"}, status_code=200)
+        return JSONResponse(content={"message": "Asistencia no encontrada"}, status_code=404)
+    return JSONResponse(content={"message": "Asistencia actualizada exitosamente"}, status_code=200)
 
 @asistencia_router.delete('/asistencias/{asistencia_id}', tags=["Asistencias"])
 def delete_asistencia(asistencia_id: int):
     db = Session()
     query = AsistenciaService(db).delete_asistencia(asistencia_id)
     if query is None:
-        return JSONResponse(content={"message": "Asistencia not found"}, status_code=404)
-    return JSONResponse(content={"message": "Asistencia deleted", "asistencia": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Asistencia no encontrada"}, status_code=404)
+    return JSONResponse(content={"message": "Asistencia eliminada exitosamente", "asistencia": jsonable_encoder(query)}, status_code=200)
