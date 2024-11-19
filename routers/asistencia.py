@@ -13,7 +13,7 @@ asistencia_router = APIRouter()
 
 @asistencia_router.get('/asistencias/filter', tags=["Asistencias"], response_model=List[Asistencia])
 def asistencia_filter(
-    asistencia_id: int,
+    asistencia_id: Optional[int] = None,
     clase_id: Optional[int] = None,
     estudiante_id: Optional[int] = None,
     fecha: Optional[date] = None,
@@ -40,7 +40,7 @@ def create_asistencia(asistencia: Asistencia):
 
 @asistencia_router.put('/asistencias/edit/{asistencia_id}', tags=["Asistencias"])
 def update_asistencia(
-    asistencia_id: Optional[int] = None,
+    asistencia_id: int,
     clase_id: Optional[int] = None,
     estudiante_id: Optional[int] = None,
     fecha: Optional[date] = None,
