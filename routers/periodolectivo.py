@@ -9,7 +9,7 @@ from services.periodolectivo import PeriodolectivoService
 
 periodolectivo_router = APIRouter()
 
-@periodolectivo_router.get('/periodolectivos/filter', tags=["Periodolectivos"], response_model=List[PeriodoLectivo])
+@periodolectivo_router.get('/periodoslectivos/filter', tags=["Periodoslectivos"], response_model=List[PeriodoLectivo])
 def periodolectivo_filter(
     periodo_id: Optional[int] = None,
     anio: Optional[int] = None,
@@ -24,16 +24,16 @@ def periodolectivo_filter(
 
     periodoslectivos = PeriodolectivoService(db).get_periodolectivo(filter)
     if not periodoslectivos:
-        return JSONResponse(content={"message": "Periodo(s) not found"}, status_code=404)
+        return JSONResponse(content={"message": "Periodo no encontrado"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(periodoslectivos), status_code=200)
 
-@periodolectivo_router.post('/periodolectivos', tags=["Periodolectivos"])
+@periodolectivo_router.post('/periodoslectivos', tags=["Periodoslectivos"])
 def create_periodolectivo(periodolectivo: PeriodoLectivo):
     db = Session()
     query = PeriodolectivoService(db).add_periodolectivo(periodolectivo)
-    return JSONResponse(content={"message": "PeriodoLectivo created", "periodolectivo": jsonable_encoder(query)}, status_code=201)
+    return JSONResponse(content={"message": "Periodo creado exitosamente", "periodolectivo": jsonable_encoder(query)}, status_code=201)
 
-@periodolectivo_router.put('/periodolectivos/edit/{periodo_id}', tags=["Periodolectivos"])
+@periodolectivo_router.put('/periodoslectivos/edit/{periodo_id}', tags=["Periodoslectivos"])
 def update_periodolectivo(periodo_id: int,
     anio: Optional[int] = None,
     esta_activo: Optional[str] = None,
@@ -47,14 +47,14 @@ def update_periodolectivo(periodo_id: int,
 
     query = PeriodolectivoService(db).update_periodolectivo(filter)
     if query is None:
-        return JSONResponse(content={"message": "Periodo not found"}, status_code=404)
-    return JSONResponse(content={"message": "Periodo updated"}, status_code=200)
+        return JSONResponse(content={"message": "Periodo no encontrado"}, status_code=404)
+    return JSONResponse(content={"message": "Periodo actualizado exitosamente"}, status_code=200)
 
 
-@periodolectivo_router.delete('/periodolectivos/{periodolectivo_id}', tags=["Periodolectivos"])
+@periodolectivo_router.delete('/periodoslectivos/{periodolectivo_id}', tags=["Periodoslectivos"])
 def delete_periodolectivo(periodolectivo_id: int):
     db = Session()
     query = PeriodolectivoService(db).delete_periodolectivo(periodolectivo_id)
     if query is None:
-        return JSONResponse(content={"message": "PeriodoLectivo not found"}, status_code=404)
-    return JSONResponse(content={"message": "PeriodoLectivo deleted", "periodolectivo": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Periodo no encontrado"}, status_code=404)
+    return JSONResponse(content={"message": "Periodo eliminado exitosamente", "periodolectivo": jsonable_encoder(query)}, status_code=200)

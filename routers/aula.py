@@ -33,14 +33,14 @@ def aula_filter(
     "jornada": jornada}
     aula = AulaService(db).get_aula(filter)
     if not aula:
-        return JSONResponse(content={"message": "Aula not found"}, status_code=404)
+        return JSONResponse(content={"message": "Aula no encontrada"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(aula), status_code=200)
 
 @aula_router.post('/aulas', tags=["Aulas"])
 def create_aula(aula: Aula):
     db = Session()
     query = AulaService(db).add_aula(aula)
-    return JSONResponse(content={"message": "Aula created", "aula": jsonable_encoder(query)}, status_code=201)
+    return JSONResponse(content={"message": "Aula creada exitosamente", "aula": jsonable_encoder(query)}, status_code=201)
 
 @aula_router.put('/aulas/edit/{aula_id}', tags=["Aulas"])
 def update_aula(aula_id: int,
@@ -60,13 +60,13 @@ def update_aula(aula_id: int,
     "jornada": jornada}
     query = AulaService(db).update_aula(filter)
     if query is None:
-        return JSONResponse(content={"message": "Aula not found"}, status_code=404)
-    return JSONResponse(content={"message": "Aula updated", "aula": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Aula no encontrada"}, status_code=404)
+    return JSONResponse(content={"message": "Aula actualizada exitosamente"}, status_code=200)
 
 @aula_router.delete('/aulas/{aula_id}', tags=["Aulas"])
 def delete_aula(aula_id: int):
     db = Session()
     query = AulaService(db).delete_aula(aula_id)
     if query is None:
-        return JSONResponse(content={"message": "Aula not found"}, status_code=404)
-    return JSONResponse(content={"message": "Aula deleted", "aula": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Aula no encontrada"}, status_code=404)
+    return JSONResponse(content={"message": "Aula eliminada exitosamente", "aula": jsonable_encoder(query)}, status_code=200)
