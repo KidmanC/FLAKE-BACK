@@ -35,11 +35,12 @@ def horarios_filter(
 
 @horario_router.post('/horarios', tags=["Horarios"])
 def create_horario(horario: Horario):
-    if horario.hora_inicio >= horario.hora_fin:
-        raise HTTPException(status_code=400, detail="La hora de fin debe ser posterior a la hora de inicio.")
     db = Session()
-    query = HorarioService(db).add_horario(horario)
-    return JSONResponse(content={"message": "Horario created", "horario": jsonable_encoder(query)}, status_code=201)
+    try:
+        query = HorarioService(db).add_horario(horario)
+        return JSONResponse(content={"message": "Horario creado exitosamente", "horario": jsonable_encoder(query)}, status_code=201)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 @horario_router.put('/horarios/edit/{horario_id}', tags=["Horarios"])
 def update_horario(
@@ -60,11 +61,10 @@ def update_horario(
     try:
         query = HorarioService(db).update_horario(filter)
         if query is None:
-            return JSONResponse(content={"message": "Horario not found"}, status_code=404)
+            return JSONResponse(content={"message": "Horario no encontrado"}, status_code=404)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    
-    return JSONResponse(content={"message": "Horario updated"}, status_code=200)
+    return JSONResponse(content={"message": "Horario actualizado exitosamente"}, status_code=200)
 
 @horario_router.delete('/horarios/{horario_id}', tags=["Horarios"])
 def delete_horario(horario_id: int):
