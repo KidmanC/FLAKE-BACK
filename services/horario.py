@@ -18,14 +18,13 @@ class HorarioService:
         self.db.commit()
         return new_horario
 
-    def update_horario(self, horario_id, horario: Horario):
-        query = self.db.query(HorarioModel).filter(HorarioModel.horario_id == horario_id).first()
+    def update_horario(self, filters: dict):
+        query = self.db.query(HorarioModel).filter(HorarioModel.horario_id == filters['horario_id']).first()
         if not query:
             return None
-        query.clase_id = horario.clase_id
-        query.dia_semana = horario.dia_semana
-        query.hora_inicio = horario.hora_inicio
-        query.hora_fin = horario.hora_fin
+        for field, value in filters.items():
+            if value is not None:
+                setattr(query, field, value)
         self.db.commit()
         return query
 

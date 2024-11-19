@@ -18,13 +18,13 @@ class Clases_no_dadas_Service:
         self.db.commit()
         return new_clase_no_dada
 
-    def update_clases_no_dadas(self, clase_no_dada_id, clase_no_dada: Clases_no_dadas):
-        query = self.db.query(Clases_no_dadas_Model).filter(Clases_no_dadas_Model.clase_no_dada_id == clase_no_dada_id).first()
+    def update_clases_no_dadas(self, filters: dict):
+        query = self.db.query(Clases_no_dadas_Model).filter(Clases_no_dadas_Model.clase_no_dada_id == filters['clase_no_dada_id']).first()
         if not query:
             return None
-        query.clase_id = clase_no_dada.clase_id
-        query.fecha_clase_no_dada = clase_no_dada.fecha_clase_no_dada
-        query.motivo = clase_no_dada.motivo
+        for field, value in filters.items():
+            if value is not None:
+                setattr(query, field, value)
         self.db.commit()
         return query
 

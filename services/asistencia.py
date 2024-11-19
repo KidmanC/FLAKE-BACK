@@ -19,14 +19,13 @@ class AsistenciaService:
         self.db.commit()
         return new_asistencia
 
-    def update_asistencia(self, asistencia_id, asistencia: Asistencia):
-        query = self.db.query(AsistenciaModel).filter(AsistenciaModel.asistencia_id == asistencia_id).first()
+    def update_asistencia(self, filters: dict):
+        query = self.db.query(AsistenciaModel).filter(AsistenciaModel.asistencia_id == filters['asistencia_id']).first()
         if not query:
             return None
-        query.clase_id = asistencia.clase_id
-        query.estudiante_id = asistencia.estudiante_id
-        query.fecha = asistencia.fecha
-        query.presente = asistencia.presente
+        for field, value in filters.items():
+            if value is not None:
+                setattr(query, field, value)
         self.db.commit()
         return query
 
