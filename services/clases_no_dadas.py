@@ -16,7 +16,7 @@ class Clases_no_dadas_Service:
         new_clase_no_dada = Clases_no_dadas_Model(**clase_no_dada.model_dump())
         self.db.add(new_clase_no_dada)
         self.db.commit()
-        return new_clase_no_dada
+        return clase_no_dada
 
     def update_clases_no_dadas(self, filters: dict):
         query = self.db.query(Clases_no_dadas_Model).filter(Clases_no_dadas_Model.clase_no_dada_id == filters['clase_no_dada_id']).first()
@@ -26,6 +26,7 @@ class Clases_no_dadas_Service:
             if value is not None:
                 setattr(query, field, value)
         self.db.commit()
+        query = self.db.query(Clases_no_dadas_Model).filter(Clases_no_dadas_Model.clase_no_dada_id == filters['clase_no_dada_id']).first()
         return query
 
     def delete_clase_no_dada(self, clase_no_dada_id):

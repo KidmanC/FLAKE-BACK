@@ -16,7 +16,7 @@ class PeriodolectivoService:
         new_periodolectivo = PeriodolectivoModel(**periodolectivo.model_dump())
         self.db.add(new_periodolectivo)
         self.db.commit()
-        return new_periodolectivo
+        return periodolectivo
 
     def update_periodolectivo(self,filters: dict):
         query = self.db.query(PeriodolectivoModel).filter(PeriodolectivoModel.periodo_id == filters['periodo_id']).first()
@@ -25,8 +25,8 @@ class PeriodolectivoService:
         for field, value in filters.items():
             if value is not None:
                 setattr(query, field, value)
-
         self.db.commit()
+        query = self.db.query(PeriodolectivoModel).filter(PeriodolectivoModel.periodo_id == filters['periodo_id']).first()
         return query
 
     def delete_periodolectivo(self, periodo_id):

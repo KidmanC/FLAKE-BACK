@@ -17,7 +17,7 @@ class AsistenciaService:
         new_asistencia = AsistenciaModel(**asistencia.model_dump())
         self.db.add(new_asistencia)
         self.db.commit()
-        return new_asistencia
+        return asistencia
 
     def update_asistencia(self, filters: dict):
         query = self.db.query(AsistenciaModel).filter(AsistenciaModel.asistencia_id == filters['asistencia_id']).first()
@@ -27,6 +27,7 @@ class AsistenciaService:
             if value is not None:
                 setattr(query, field, value)
         self.db.commit()
+        query = self.db.query(AsistenciaModel).filter(AsistenciaModel.asistencia_id == filters['asistencia_id']).first()
         return query
 
     def delete_asistencia(self, asistencia_id):

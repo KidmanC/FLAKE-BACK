@@ -24,7 +24,7 @@ class HorarioService:
         new_horario = HorarioModel(**horario.model_dump())
         self.db.add(new_horario)
         self.db.commit()
-        return new_horario
+        return horario
 
     def update_horario(self, filters: dict):
         query = self.db.query(HorarioModel).filter(HorarioModel.horario_id == filters['horario_id']).first()
@@ -40,6 +40,7 @@ class HorarioService:
             if value is not None:
                 setattr(query, field, value)
         self.db.commit()
+        query = self.db.query(HorarioModel).filter(HorarioModel.horario_id == filters['horario_id']).first()
         return query
 
     def delete_horario(self, horario_id):

@@ -16,7 +16,7 @@ class NotaService:
         new_nota = NotaModel(**nota.model_dump())
         self.db.add(new_nota)
         self.db.commit()
-        return new_nota
+        return nota
 
     def update_nota(self,filters: dict):
         query = self.db.query(NotaModel).filter(NotaModel.nota_id == filters['nota_id']).first()
@@ -25,8 +25,8 @@ class NotaService:
         for field, value in filters.items():
             if value is not None:
                 setattr(query, field, value)
-
         self.db.commit()
+        query = self.db.query(NotaModel).filter(NotaModel.nota_id == filters['nota_id']).first()
         return query
 
 

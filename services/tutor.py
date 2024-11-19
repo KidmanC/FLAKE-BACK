@@ -16,7 +16,7 @@ class TutorService:
         new_tutor = TutorModel(**tutor.model_dump())
         self.db.add(new_tutor)
         self.db.commit()
-        return new_tutor
+        return tutor
 
     def update_tutor(self, filters: dict):
         query = self.db.query(TutorModel).filter(TutorModel.tutor_id == filters['tutor_id']).first()
@@ -26,6 +26,7 @@ class TutorService:
             if value is not None:
                 setattr(query, field, value) ###actualiza dinamicamente
         self.db.commit()
+        query = self.db.query(TutorModel).filter(TutorModel.tutor_id == filters['tutor_id']).first()
         return query
 
     def delete_tutor(self, tutor_id):
