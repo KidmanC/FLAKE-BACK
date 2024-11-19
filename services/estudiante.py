@@ -22,7 +22,7 @@ class EstudianteService:
         new_estudiante = EstudianteModel(**estudiante.model_dump())
         self.db.add(new_estudiante)
         self.db.commit()
-        return new_estudiante
+        return estudiante
 
     def update_estudiante(self,filters: dict):
         query = self.db.query(EstudianteModel).filter(EstudianteModel.estudiante_id == filters['estudiante_id']).first()
@@ -31,8 +31,8 @@ class EstudianteService:
         for field, value in filters.items():
             if value is not None:
                 setattr(query, field, value)
-
         self.db.commit()
+        query = self.db.query(EstudianteModel).filter(EstudianteModel.estudiante_id == filters['estudiante_id']).first()
         return query
 
 

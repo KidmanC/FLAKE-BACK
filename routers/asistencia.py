@@ -57,7 +57,7 @@ def update_asistencia(
     query = AsistenciaService(db).update_asistencia(filter)
     if query is None:
         return JSONResponse(content={"message": "Asistencia no encontrada"}, status_code=404)
-    return JSONResponse(content={"message": "Asistencia actualizada exitosamente"}, status_code=200)
+    return JSONResponse(content={"message": "Asistencia actualizada exitosamente", "asistencia": jsonable_encoder(query)}, status_code=200)
 
 @asistencia_router.delete('/asistencias/{asistencia_id}', tags=["Asistencias"])
 def delete_asistencia(asistencia_id: int):

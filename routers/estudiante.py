@@ -99,8 +99,7 @@ def update_estudiante(estudiante_id: int,
     query = EstudianteService(db).update_estudiante(filter)
     if query is None:
         return JSONResponse(content={"message": "Estudiante no encontrado"}, status_code=404)
-    return JSONResponse(content={"message": "Estudiante actualizado exitosamente"}, status_code=200)
-
+    return JSONResponse(content={"message": "Estudiante actualizado exitosamente", "estudiante": jsonable_encoder(query)}, status_code=200)
 
 @estudiante_router.delete('/estudiantes/{estudiante_id}', tags=["Estudiantes"])
 def delete_estudiante(estudiante_id: int):

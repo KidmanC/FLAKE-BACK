@@ -16,7 +16,7 @@ class InstitucionService:
         new_institucion = InstitucionModel(**institucion.model_dump())
         self.db.add(new_institucion)
         self.db.commit()
-        return new_institucion
+        return institucion
 
     def update_institucion(self,  filters: dict):
         query = self.db.query(InstitucionModel).filter(InstitucionModel.institucion_id == filters['institucion_id']).first()
@@ -26,6 +26,7 @@ class InstitucionService:
             if value is not None:
                 setattr(query, field, value)
         self.db.commit()
+        query = self.db.query(InstitucionModel).filter(InstitucionModel.institucion_id == filters['institucion_id']).first()
         return query
 
     def delete_institucion(self, institucion_id):

@@ -16,7 +16,7 @@ class AulaService:
         new_aula = AulaModel(**aula.model_dump())
         self.db.add(new_aula)
         self.db.commit()
-        return new_aula
+        return aula
 
     def update_aula(self, filters: dict):
         query = self.db.query(AulaModel).filter(AulaModel.aula_id == filters['aula_id']).first()
@@ -26,6 +26,7 @@ class AulaService:
             if value is not None:
                 setattr(query, field, value) ###actualiza dinamicamente
         self.db.commit()
+        query = self.db.query(AulaModel).filter(AulaModel.aula_id == filters['aula_id']).first()
         return query
 
     def delete_aula(self, aula_id):

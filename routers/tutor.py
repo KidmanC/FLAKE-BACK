@@ -79,7 +79,7 @@ def update_tutor(tutor_id: int,
     query = TutorService(db).update_tutor(filter)
     if query is None:
         return JSONResponse(content={"message": "Tutor no encontrado"}, status_code=404)
-    return JSONResponse(content={"message": "Tutor actualizado correctamente"}, status_code=200)
+    return JSONResponse(content={"message": "Tutor actualizado correctamente", "tutor": jsonable_encoder(query)}, status_code=200)
 
 @tutor_router.delete('/tutores/{tutor_id}', tags=["Tutores"])
 def delete_tutor(tutor_id: int):
@@ -87,4 +87,4 @@ def delete_tutor(tutor_id: int):
     query = TutorService(db).delete_tutor(tutor_id)
     if query is None:
         return JSONResponse(content={"message": "Tutor no encontrado"}, status_code=404)
-    return JSONResponse(content={"message": "Tutor eliminado correctamente"}, status_code=200)
+    return JSONResponse(content={"message": "Tutor eliminado correctamente", "tutor": jsonable_encoder(query)}, status_code=200)

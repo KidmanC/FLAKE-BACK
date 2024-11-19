@@ -16,7 +16,7 @@ class ClaseService:
         new_clase = ClaseModel(**clase.model_dump())
         self.db.add(new_clase)
         self.db.commit()
-        return new_clase
+        return clase
 
     def update_clase(self,filters: dict):
         query = self.db.query(ClaseModel).filter(ClaseModel.clase_id == filters['clase_id']).first()
@@ -30,6 +30,7 @@ class ClaseService:
         #query.tutor_id = clase.tutor_id
         #query.periodo_id = clase.periodo_id
         #query.grado = clase.grado
+        query = self.db.query(ClaseModel).filter(ClaseModel.clase_id == filters['clase_id']).first()
         self.db.commit()
         return query
 
