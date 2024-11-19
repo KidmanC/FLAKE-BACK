@@ -30,14 +30,14 @@ def horarios_filter(
     }
     horarios = HorarioService(db).get_horario(filter)
     if not horarios:
-        return JSONResponse(content={"message": "Horarios not found"}, status_code=404)
+        return JSONResponse(content={"message": "Horario no encontrado"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(horarios), status_code=200)
 
 @horario_router.post('/horarios', tags=["Horarios"])
 def create_horario(horario: Horario):
     db = Session()
     query = HorarioService(db).add_horario(horario)
-    return JSONResponse(content={"message": "Horario created", "horario": jsonable_encoder(query)}, status_code=201)
+    return JSONResponse(content={"message": "Horario creado exitosamente", "horario": jsonable_encoder(query)}, status_code=201)
 
 @horario_router.put('/horarios/edit/{horario_id}', tags=["Horarios"])
 def update_horario(
@@ -57,13 +57,13 @@ def update_horario(
     }
     query = HorarioService(db).update_horario(filter)
     if query is None:
-        return JSONResponse(content={"message": "Horario not found"}, status_code=404)
-    return JSONResponse(content={"message": "Horario updated"}, status_code=200)
+        return JSONResponse(content={"message": "Horario no encontrado"}, status_code=404)
+    return JSONResponse(content={"message": "Horario actualizado exitosamente"}, status_code=200)
 
 @horario_router.delete('/horarios/{horario_id}', tags=["Horarios"])
 def delete_horario(horario_id: int):
     db = Session()
     query = HorarioService(db).delete_horario(horario_id)
     if query is None:
-        return JSONResponse(content={"message": "Horario not found"}, status_code=404)
-    return JSONResponse(content={"message": "Horario deleted", "horario": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Horario no encontrado"}, status_code=404)
+    return JSONResponse(content={"message": "Horario eliminado exitosamente", "horario": jsonable_encoder(query)}, status_code=200)

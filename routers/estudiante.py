@@ -52,14 +52,14 @@ def Estudiantes_filter(
 
     estudiantes = EstudianteService(db).get_estudiante(filter)
     if not estudiantes:
-        return JSONResponse(content={"message": "Estudiante(s) not found"}, status_code=404)
+        return JSONResponse(content={"message": "Estudiante(s) no encontrado"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(estudiantes), status_code=200)
 
 @estudiante_router.post('/estudiantes', tags=["Estudiantes"])
 def create_estudiante(estudiante: Estudiante):
     db = Session()
     query = EstudianteService(db).add_estudiante(estudiante)
-    return JSONResponse(content={"message": "Estudiante created", "estudiante": jsonable_encoder(query)}, status_code=201)
+    return JSONResponse(content={"message": "Estudiante creado exitosamente", "estudiante": jsonable_encoder(query)}, status_code=201)
 
 @estudiante_router.put('/estudiantes/edit/{estudiante_id}', tags=["Estudiantes"])
 def update_estudiante(estudiante_id: int,
@@ -98,8 +98,8 @@ def update_estudiante(estudiante_id: int,
 
     query = EstudianteService(db).update_estudiante(filter)
     if query is None:
-        return JSONResponse(content={"message": "Estudiante not found"}, status_code=404)
-    return JSONResponse(content={"message": "Estudiante updated"}, status_code=200)
+        return JSONResponse(content={"message": "Estudiante no encontrado"}, status_code=404)
+    return JSONResponse(content={"message": "Estudiante actualizado exitosamente"}, status_code=200)
 
 
 @estudiante_router.delete('/estudiantes/{estudiante_id}', tags=["Estudiantes"])
@@ -107,13 +107,13 @@ def delete_estudiante(estudiante_id: int):
     db = Session()
     query = EstudianteService(db).delete_estudiante(estudiante_id)
     if query is None:
-        return JSONResponse(content={"message": "Estudiante not found"}, status_code=404)
-    return JSONResponse(content={"message": "Estudiante deleted", "estudiante": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Estudiante no encontrado"}, status_code=404)
+    return JSONResponse(content={"message": "Estudiante eliminado exitosamente", "estudiante": jsonable_encoder(query)}, status_code=200)
 
 @estudiante_router.get('/estudiantes/{estudiante_id}/periodo/{periodo_id}', tags=["Estudiantes"])
 def get_nota_final(estudiante_id: int, periodo_id: int):
     db = Session()
     notas = EstudianteService(db).get_nota_final(estudiante_id, periodo_id)
     if not notas:
-        return JSONResponse(content={"message": "Notas not found"}, status_code=404)
+        return JSONResponse(content={"message": "Nota no encontrada"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(notas), status_code=200)

@@ -10,7 +10,7 @@ from typing import Optional, List
 
 institucion_router = APIRouter()
 
-@institucion_router.get('/institucions/filter', tags=["Institucions"], response_model=List[Institucion])
+@institucion_router.get('/instituciones/filter', tags=["Instituciones"], response_model=List[Institucion])
 def institucion_filter(
     institucion_id: Optional[int] = None,
     numero: Optional[str] = None,
@@ -34,16 +34,16 @@ def institucion_filter(
     }
     institucions = InstitucionService(db).get_institucion(filter)
     if not institucions:
-        return JSONResponse(content={"message": "Institucions not found"}, status_code=404)
+        return JSONResponse(content={"message": "Institucion no encontrada"}, status_code=404)
     return JSONResponse(content=jsonable_encoder(institucions), status_code=200)
 
-@institucion_router.post('/institucions', tags=["Institucions"])
+@institucion_router.post('/instituciones', tags=["Instituciones"])
 def create_institucion(institucion: Institucion):
     db = Session()
     query = InstitucionService(db).add_institucion(institucion)
-    return JSONResponse(content={"message": "Institucion created", "institucion": jsonable_encoder(query)}, status_code=201)
+    return JSONResponse(content={"message": "Institucion creada exitosamente", "institucion": jsonable_encoder(query)}, status_code=201)
 
-@institucion_router.put('/institucions/edit/{institucion_id}', tags=["Institucions"])
+@institucion_router.put('/instituciones/edit/{institucion_id}', tags=["Instituciones"])
 def update_institucion(
     institucion_id: int,
     numero: Optional[str] = None,
@@ -66,13 +66,13 @@ def update_institucion(
     }
     query = InstitucionService(db).update_institucion(filter)
     if query is None:
-        return JSONResponse(content={"message": "Institucion not found"}, status_code=404)
-    return JSONResponse(content={"message": "Institucion updated"}, status_code=200)
+        return JSONResponse(content={"message": "Institucion no encontrada"}, status_code=404)
+    return JSONResponse(content={"message": "Institucion actualizada exitosamente"}, status_code=200)
 
-@institucion_router.delete('/institucions/{institucion_id}', tags=["Institucions"])
+@institucion_router.delete('/instituciones/{institucion_id}', tags=["Instituciones"])
 def delete_institucion(institucion_id: int):
     db = Session()
     query = InstitucionService(db).delete_institucion(institucion_id)
     if query is None:
-        return JSONResponse(content={"message": "Institucion not found"}, status_code=404)
-    return JSONResponse(content={"message": "Institucion deleted", "institucion": jsonable_encoder(query)}, status_code=200)
+        return JSONResponse(content={"message": "Institucion no encontrada"}, status_code=404)
+    return JSONResponse(content={"message": "Institucion eliminada exitosamente", "institucion": jsonable_encoder(query)}, status_code=200)
