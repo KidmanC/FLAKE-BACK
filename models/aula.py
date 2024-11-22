@@ -17,7 +17,7 @@ class Aula(Base):
     jornada = Column(Enum(Jornada, values_callable=lambda enum: [e.value for e in enum]))
 
     #backref
-    institucion = relationship('Institucion', backref='aulas', lazy="joined", uselist=False, join_depth=1)
+    institucion = relationship('Institucion', backref='aulas', lazy="joined", uselist=False, join_depth=2)
     periodo = relationship('Periodo_lectivo', backref='aulas', lazy="joined", uselist=False, join_depth=1)
 
     #back_populates

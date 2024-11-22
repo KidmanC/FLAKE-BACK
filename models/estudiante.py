@@ -25,7 +25,7 @@ class Estudiante(Base):
     estrato = Column(Integer)
 
     #backref
-    aula = relationship('Aula', backref='estudiantes', lazy="joined", uselist=False, join_depth=1)
+    aula = relationship('Aula', backref='estudiantes', lazy="joined", uselist=False, join_depth=2)
     periodo = relationship('Periodo_lectivo', backref='estudiantes', lazy="joined", uselist=False, join_depth=1)
 
     #back_populates
