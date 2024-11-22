@@ -10,7 +10,7 @@ class AulaService:
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(AulaModel, field) == value) ###filtra dinamicamente
-        return query.all()  
+        return query.limit(200).all()
     
     def add_aula(self, aula: Aula):
         new_aula = AulaModel(**aula.model_dump())

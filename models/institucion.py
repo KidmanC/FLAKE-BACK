@@ -1,6 +1,6 @@
 from config.database import Base
 from sqlalchemy import Column, Integer, String
-
+from sqlalchemy.orm import relationship
 
 class Institucion(Base):
     __tablename__ = 'INSTITUCION'
@@ -13,3 +13,6 @@ class Institucion(Base):
     rector = Column(String(100))
     direccion = Column(String(150))
     barrio = Column(String(50))
+
+    #back_populates
+    #aulas = relationship('Aula', back_populates='institucion', lazy="joined", uselist=True, join_depth=1)

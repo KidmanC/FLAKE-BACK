@@ -10,7 +10,7 @@ class TutorService:
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(TutorModel, field) == value) ###filtra dinamicamente
-        return query.all() 
+        return query.limit(200).all()
     
     def add_tutor(self, tutor: Tutor):
         new_tutor = TutorModel(**tutor.model_dump())

@@ -12,4 +12,8 @@ class Clases_no_dadas(Base):
     fecha_clase_no_dada = Column(Date)
     motivo = Column(Enum(Motivo, values_callable=lambda enum: [e.value for e in enum]))
 
-    clase = relationship('Clase', backref='clases_no_dadas', lazy="joined")
+    #backref
+    clase = relationship('Clase', backref='clases_no_dadas', lazy="selectin", uselist=False, join_depth=1)
+
+    #back_populates
+    #clase = relationship('Clase', back_populates='clases_no_dadas', lazy="joined", uselist=False, join_depth=1)

@@ -16,5 +16,12 @@ class Aula(Base):
     grupo = Column(String(10))
     jornada = Column(Enum(Jornada, values_callable=lambda enum: [e.value for e in enum]))
 
-    institucion = relationship('Institucion', backref='aulas', lazy="joined")
-    periodo = relationship('Periodo_lectivo', backref='aulas', lazy="joined")
+    #backref
+    institucion = relationship('Institucion', backref='aulas', lazy="joined", uselist=False, join_depth=1)
+    periodo = relationship('Periodo_lectivo', backref='aulas', lazy="joined", uselist=False, join_depth=1)
+
+    #back_populates
+    #institucion = relationship('Institucion', back_populates='aulas', lazy="joined", uselist=False, join_depth=1)
+    #periodo = relationship('Periodo_lectivo', back_populates='aulas', lazy="joined", uselist=False, join_depth=1)
+    #estudiantes = relationship('Estudiante', back_populates='aula', lazy="joined", uselist=True, join_depth=1)
+    #clases = relationship('Clase', back_populates='aula', lazy="joined", uselist=True, join_depth=1)

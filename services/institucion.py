@@ -10,7 +10,7 @@ class InstitucionService:
         for field, value in filters.items():
             if value is not None:
                 query = query.filter(getattr(InstitucionModel, field) == value)
-        return query.all() 
+        return query.limit(200).all()
 
     def add_institucion(self, institucion: Institucion):
         new_institucion = InstitucionModel(**institucion.model_dump())
