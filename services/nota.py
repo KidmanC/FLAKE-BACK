@@ -10,7 +10,7 @@ class NotaService:
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(NotaModel, field) == value)
-        return query.all()
+        return query.limit(200).all()
     
     def add_nota(self, nota: Nota):
         new_nota = NotaModel(**nota.model_dump())

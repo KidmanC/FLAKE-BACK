@@ -13,4 +13,8 @@ class Horario(Base):
     hora_inicio = Column(Time)
     hora_fin = Column(Time)
 
-    clase = relationship('Clase', backref='horarios', lazy="joined")
+    #backref
+    clase = relationship('Clase', backref='horarios', lazy="selectin", uselist=False, join_depth=1)
+
+    #back_populates
+    #clase = relationship('Clase', back_populates='horarios', lazy="joined", uselist=False, join_depth=1)

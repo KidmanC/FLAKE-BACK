@@ -10,7 +10,7 @@ class ClaseService:
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(ClaseModel, field) == value)  ###filtra dinamicamente
-        return query.all() 
+        return query.limit(200).all() 
     
     def add_clase(self, clase: Clase):
         new_clase = ClaseModel(**clase.model_dump())

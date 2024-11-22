@@ -10,7 +10,7 @@ class AsistenciaService:
         for field, value in filters.items():
             if value is not None:
                 query = query.filter(getattr(AsistenciaModel, field) == value)
-        return query.all() 
+        return query.limit(200).all()
 
     
     def add_asistencia(self, asistencia: Asistencia):

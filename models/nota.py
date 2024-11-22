@@ -13,6 +13,12 @@ class Nota(Base):
     bloque = Column(Integer) 
     calificacion = Column(Numeric)
 
-    periodo = relationship('Periodo_lectivo', backref='notas', lazy="joined")
-    estudiante = relationship('Estudiante', backref='notas', lazy="joined")
-    clase = relationship('Clase', backref='notas', lazy="joined")
+    #backref
+    periodo = relationship('Periodo_lectivo', backref='notas', lazy="joined", uselist=False, join_depth=1)
+    estudiante = relationship('Estudiante', backref='notas', lazy="selectin", uselist=False, join_depth=1)
+    clase = relationship('Clase', backref='notas', lazy="selectin", uselist=False, join_depth=1)
+
+    #back_populates
+    #periodo = relationship('Periodo_lectivo', back_populates='notas', lazy="joined", uselist=False, join_depth=1)
+    #estudiante = relationship('Estudiante', back_populates='notas', lazy="joined", uselist=False, join_depth=1)
+    #clase = relationship('Clase', back_populates='notas', lazy="joined", uselist=False, join_depth=1)

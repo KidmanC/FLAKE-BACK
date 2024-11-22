@@ -10,7 +10,7 @@ class PeriodolectivoService:
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(PeriodolectivoModel, field) == value)
-        return query.all()
+        return query.limit(200).all()
     
     def add_periodolectivo(self, periodolectivo: PeriodoLectivo):
         new_periodolectivo = PeriodolectivoModel(**periodolectivo.model_dump())

@@ -21,4 +21,9 @@ class Tutor(Base):
     user = Column(String(50))
     password = Column(String(255))
 
-    periodo = relationship('Periodo_lectivo', backref='tutores', lazy="joined")
+    #backref
+    periodo = relationship('Periodo_lectivo', backref='tutores', lazy="joined", uselist=False, join_depth=1)
+
+    #back_populates
+    #periodo = relationship('Periodo_lectivo', back_populates='tutores', lazy="joined", uselist=False, join_depth=1)
+    #clases = relationship('Clase', back_populates='tutor', lazy="joined", uselist=True, join_depth=1)

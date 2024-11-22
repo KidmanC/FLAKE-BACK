@@ -13,5 +13,10 @@ class Asistencia(Base):
     fecha = Column(Date)
     presente = Column(Enum(Presente, values_callable=lambda enum: [e.value for e in enum]))
 
-    clases = relationship('Clase', backref='asistencias', lazy="joined")
-    estudiantes = relationship('Estudiante', backref='asistencias', lazy="joined")
+    #backref
+    clases = relationship('Clase', backref='asistencias', lazy="selectin", uselist=True, join_depth=1)
+    estudiantes = relationship('Estudiante', backref='asistencias', lazy="selectin", uselist=True, join_depth=1)
+
+    #back_populates
+    #clase = relationship('Clase', back_populates='asistencias', lazy="joined", uselist=False, join_depth=1)
+    #estudiante = relationship('Estudiante', back_populates='asistencias', lazy="joined", uselist=False, join_depth=1)

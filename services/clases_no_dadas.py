@@ -10,7 +10,7 @@ class Clases_no_dadas_Service:
         for field, value in filters.items():
             if value is not None:
                 query = query.filter(getattr(Clases_no_dadas_Model, field) == value)
-        return query.all() 
+        return query.limit(200).all()
     
     def add_clase_no_dada(self, clase_no_dada: Clases_no_dadas):
         new_clase_no_dada = Clases_no_dadas_Model(**clase_no_dada.model_dump())

@@ -24,5 +24,13 @@ class Estudiante(Base):
     fecha_nacimiento = Column(Date)
     estrato = Column(Integer)
 
-    aula = relationship('Aula', backref='estudiantes', lazy="joined")
-    periodo = relationship('Periodo_lectivo', backref='estudiantes', lazy="joined")
+    #backref
+    aula = relationship('Aula', backref='estudiantes', lazy="joined", uselist=False, join_depth=1)
+    periodo = relationship('Periodo_lectivo', backref='estudiantes', lazy="joined", uselist=False, join_depth=1)
+
+    #back_populates
+    #aula = relationship('Aula', back_populates='estudiantes', lazy="joined", uselist=False, join_depth=1)
+    #periodo = relationship('Periodo_lectivo', back_populates='estudiantes', lazy="joined", uselist=False, join_depth=1)
+    #notas = relationship('Nota', back_populates='estudiante', lazy="joined", uselist=True, join_depth=1)
+    #aula = relationship('Aula', back_populates='estudiantes', lazy="joined", uselist=False, join_depth=1)
+    #asistencias = relationship('Asistencia', back_populates='estudiante', lazy="joined", uselist=True, join_depth=1)

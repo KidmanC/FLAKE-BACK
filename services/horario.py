@@ -12,7 +12,7 @@ class HorarioService:
         for field, value in filters.items():
             if value is not None:
                 query = query.filter(getattr(HorarioModel, field) == value)
-        return query.all() 
+        return query.limit(200).all()
     
     def add_horario(self, horario: Horario):
         self.validate_horario(

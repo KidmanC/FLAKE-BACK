@@ -10,7 +10,7 @@ class EstudianteService:
         for field, value in filters.items():
             if value is not None:  
                 query = query.filter(getattr(EstudianteModel, field) == value)
-        return query.all()
+        return query.limit(200).all()
     
     def get_nota_final(self, estudiante_id, periodo_id):
         notas = self.db.query(EstudianteModel).filter(EstudianteModel.estudiante_id == estudiante_id).first().notas
