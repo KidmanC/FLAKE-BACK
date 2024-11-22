@@ -12,6 +12,7 @@ from routers.institucion import institucion_router
 from routers.nota import nota_router
 from routers.periodolectivo import periodolectivo_router
 from routers.tutor import tutor_router
+from routers.auth import auth_router
 
 app = FastAPI()
 app.title = "Flake Backend"
@@ -28,6 +29,8 @@ app.include_router(institucion_router)
 app.include_router(nota_router)
 app.include_router(periodolectivo_router)
 app.include_router(tutor_router)
+app.include_router(auth_router)
+
 
 #db
 Base.metadata.create_all(bind=engine)
