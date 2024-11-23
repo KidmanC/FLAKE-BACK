@@ -81,6 +81,16 @@ def update_tutor(tutor_id: int,
         return JSONResponse(content={"message": "Tutor no encontrado"}, status_code=404)
     return JSONResponse(content={"message": "Tutor actualizado correctamente", "tutor": jsonable_encoder(query)}, status_code=200)
 
+@tutor_router.put('/tutores/change_password/{tutor_id}', tags=["Tutores"])
+def change_password(tutor_id: int, old_password: str, new_password: str):
+    db = Session()
+    query = TutorService(db).change_password(tutor_id, old_password, new_password)
+    if query is None:
+        return JSONResponse(content={"message": "Tutor no encontrado"}, status_code=404)
+    if query == 0:
+        return JSONResponse(content={"message": "Contraseña incorrecta"}, status_code=400)
+    return JSONResponse(content={"message": "Contraseña actualizada correctamente", "tutor": jsonable_encoder(query)}, status_code=200)
+
 @tutor_router.delete('/tutores/{tutor_id}', tags=["Tutores"])
 def delete_tutor(tutor_id: int):
     db = Session()
