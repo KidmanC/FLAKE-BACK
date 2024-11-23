@@ -1,5 +1,6 @@
 from models.tutor import Tutor as TutorModel
 from schemas.tutor import Tutor
+from services.auth import AuthService
 
 class TutorService:
     def __init__(self, db):
@@ -36,3 +37,14 @@ class TutorService:
         self.db.delete(tutor)
         self.db.commit()
         return tutor
+    
+    def change_password(self, tutor_id, old_password, new_password):
+        tutor = self.db.query(TutorModel).filter(TutorModel.tutor_id == tutor_id).first()
+        password = AuthService(self.db).fake_hash_password(old_password)
+        if not tutor:
+            return None
+        if tutor.password == password:
+            tutor.password = AuthService(self.db).fake_hash_password(new_password)
+            self.db.commit()
+            return self.db.query(TutorModel).filter(TutorModel.tutor_id == tutor_id).first()
+        return 0
